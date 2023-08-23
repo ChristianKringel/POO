@@ -1,7 +1,6 @@
 package jogo;
 
 public class Movimentos {
-
     private static int tam = 15;
     private int p1x;
     private int p1y;
@@ -10,9 +9,8 @@ public class Movimentos {
     private int m2x;
     private int m2y;
 
-    public Movimentos(int posx, int posy) {
-        this.p1x = posx;
-        this.p1y = posy;
+    public Movimentos(int direction) {
+            Locomover(direction);
     }
 
     public int getM1x() {
@@ -71,7 +69,7 @@ public class Movimentos {
     }
     // Add getters and setters for other variables
 
-    public int Personagem(int posx, int posy) {
+    public int Personagem(int posx, int posy) { //If the life = 0, return -1, if else life is full,return 1, else return life
         int vida = 100;
 
         if (posx == getM1x() && posy == getM1y()) {
@@ -89,34 +87,32 @@ public class Movimentos {
         }
     }
 
-    public void Locomoverx(Movimentos p, int pos) {
+    public void Locomover(int pos) {
         int aux;
 
         do {
             switch (pos) {
                 case 1 -> {
-                    if(p.getM1y() < tam - 1)
-                        p.setP1y(p.getP1y() + 1);
-                    break;
+                    if(p1y < tam - 1)
+                       p1y++;
                 }
                 case 2 -> {
-                    if(p.getP1y() > 0)
-                        p.setP1y(p.getP1y() + 1);
+                    if(p1y > 0)
+                        p1y--;
                 }
                 case 3 -> {
-                    if (p.getP1x() > 0)
-                        p.setP1x(p.getP1x() - 1); // Should be -1, not +1
-                    break;
+                    if (p1x > 0)
+                       p1x--;
                 }
                 case 4 -> {
-                    if (p.getP1x() < tam - 1)
-                        p.setP1x(p.getP1x() + 1);
-                    break;
+                    if (p1x < tam - 1)
+                        p1x++;
                 }
                 default -> {
                     System.out.println("Direcao invalida");
                 }
             }
-        } while (p.getP1x() >= tam || p.getP1y() >= tam || p.getP1x() < 0 || p.getP1y() < 0);
+        } while(p1x >= tam || p1y >= tam || p1x < 0 || p1y < 0);
+        //while (p.getP1x() >= tam || p.getP1y() >= tam || p.getP1x() < 0 || p.getP1y() < 0);
     }
 }
