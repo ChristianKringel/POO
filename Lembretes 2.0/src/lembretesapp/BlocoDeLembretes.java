@@ -30,9 +30,9 @@ public class BlocoDeLembretes {
            //return list.contains(search);
        }    */
     
-    public void order()                                 //Ordena a lista com base no compareTo e no Comparable definidos na classe Lembrete
+    public void order(List<Lembrete> l)                                 //Ordena a lista com base no compareTo e no Comparable definidos na classe Lembrete
     {
-        Collections.sort(list);
+        Collections.sort(l);
     }   
     
     public void insert(Lembrete l)                  // Insere um novo Lembrete na lista
