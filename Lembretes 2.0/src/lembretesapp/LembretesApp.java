@@ -120,7 +120,7 @@ public class LembretesApp {
                     System.out.println(b);
                 }
                 case 5-> {
-                       b.order();
+                       //b.order();
                        System.out.println(b);
                 }
                 case 6 -> {
@@ -134,7 +134,7 @@ public class LembretesApp {
                                 scan.nextLine();
                             } 
                             else {
-                                b.order();
+                                //b.order();
                                 System.out.println(list + "\n");
                                 scan.nextLine();
                             }
@@ -152,7 +152,7 @@ public class LembretesApp {
                         scan.nextLine();
                     } 
                     else {
-                        b.order();
+                        //b.order();
                         System.out.println(list + "\n");
                         scan.nextLine();
                     }
@@ -166,7 +166,7 @@ public class LembretesApp {
                                 scan.nextLine();
                             } 
                             else {
-                                b.order();
+                                //b.order();
                                 System.out.println(list + "\n");
                                 scan.nextLine();
                             }

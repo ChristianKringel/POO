@@ -3,7 +3,7 @@ package lembretesapp;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;   
 
 public class Screen extends JFrame {
     public Screen()
@@ -12,8 +12,6 @@ public class Screen extends JFrame {
         JButton button1 = new JButton("Sort by Date");      //3 buttons for main menu(screen)
         JButton button2 = new JButton("Alphabetical ordering");
         JButton button3 = new JButton("Add new annotation");
-
-
 
         //Screen code
         setVisible(true);

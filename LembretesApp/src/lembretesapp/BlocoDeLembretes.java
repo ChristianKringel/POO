@@ -85,7 +85,6 @@ public class BlocoDeLembretes {
                 reminderOfTheMonth.add(lembrete);
             }
         }
-
         return reminderOfTheMonth;
     }
     

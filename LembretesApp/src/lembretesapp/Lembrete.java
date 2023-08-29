@@ -29,14 +29,14 @@ public class Lembrete implements Comparable<Lembrete>{
     
     public Lembrete(String title,String desc, Data d)            //Metodo construtor de Lembrete
     {
-        this.title = title;                                        //Passa como parametro uma data(Dia,mes,ano) e uma String que é a descrição do lembrete
+        this.title = title;                                      //Passa como parametro uma data(Dia,mes,ano) e uma String que é a descrição do lembrete
         this.desc = desc; 
         this.d = d; 
     }  
     
     @Override
     public String toString()                                        //Sobrescrita no metodo toString
-    {                                                                          //Imprime toString da Data + a descrição do Lembrete
+    {                                                               //Imprime toString da Data + a descrição do Lembrete
         return getTitle()+ "\n" + getData() + " - " + getDesc() + "\n";
     }
     
