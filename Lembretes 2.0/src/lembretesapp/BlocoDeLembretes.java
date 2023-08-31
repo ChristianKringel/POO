@@ -33,12 +33,16 @@ public class BlocoDeLembretes {
     public void order(List<Lembrete> l)                                 //Ordena a lista com base no compareTo e no Comparable definidos na classe Lembrete
     {
         Collections.sort(l);
+<<<<<<< HEAD
     }
 
     public void orderTitle(List<Lembrete> l)
     {
         Collections.sort(l, Lembrete.getComparadorTitulo());
     }
+=======
+    }   
+>>>>>>> 8528216b0b7cb4bd73d42a5667c7454a97472a01
     
     public void insert(Lembrete l)                  // Insere um novo Lembrete na lista
     {
