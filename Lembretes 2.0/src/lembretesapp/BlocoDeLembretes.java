@@ -33,36 +33,36 @@ public class BlocoDeLembretes {
     public void order(List<Lembrete> l)                                 //Ordena a lista com base no compareTo e no Comparable definidos na classe Lembrete
     {
         Collections.sort(l);
-<<<<<<< HEAD
     }
 
     public void orderTitle(List<Lembrete> l)
     {
         Collections.sort(l, Lembrete.getComparadorTitulo());
     }
-=======
-    }   
->>>>>>> 8528216b0b7cb4bd73d42a5667c7454a97472a01
+
     
-    public void insert(Lembrete l)                  // Insere um novo Lembrete na lista
+    public void insert(Lembrete l)                  //Add new note on the list
     {
         list.add(l);
-        //position++;                                          //Preciso conseguir imprimir a posição 
     }
     
-    public Lembrete remove(int position)        //Remove um Lembrete de determinado índex
+    public Lembrete remove(int position)        //delete an note with that index
     {
         return list.remove(position);
     }
     
- 
+
+
+    /* ####################################################### */
+    /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+    //Nothing from here on down is used
     @Override
     public String toString() 
     {
         return  list.toString();
     }
     
-     public LinkedList<Lembrete> searchForYear(int year) {         //Método para buscar o lembrete de um determinado ano
+     public LinkedList<Lembrete> searchForYear(int year) {                  //Método para buscar o lembrete de um determinado ano
         LinkedList<Lembrete> reminderOfTheYear = new LinkedList<>();         //Retorna um objeto do tipo Lembrete; 
 
         for (Lembrete lembrete : list)

@@ -18,75 +18,70 @@ public class Lembrete implements Comparable<Lembrete> {
     private int month;
     private int year;
     private Data d = new Data(day, month, year);
+    /* ###################################### */
+    //  Getters and setters //
+
     public String getDesc() {
         return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Data getData() {
         return d;
     }
+
     public String getTitle() {
         return title;
     }
 
-    public Lembrete(String title, String desc, Data d)            //Metodo construtor de Lembrete
+    public Lembrete(String title, String desc, Data d)            //Constructor method
     {
-        this.title = title;                                         //Passa como parametro uma data(Dia,mes,ano) e uma String que é a descrição do lembrete
+        this.title = title;
         this.desc = desc;
         this.d = d;
     }
 
     @Override
-    public String toString()                                        //Sobrescrita no metodo toString
-    {                                                                          //Imprime toString da Data + a descrição do Lembrete
+    public String toString()                                        //Override toString
+    {                                                                          //Isn't necessary
         return getData() + " - " + getDesc() + "\n";
     }
+
     @Override
-    public int compareTo(Lembrete l)                        //Compara os lembretes para ordena-los no Bloco
+    public int compareTo(Lembrete l)                        //Compare all notes
     {
-        if(this.d.getYear() < l.d.getYear())
+        if (this.d.getYear() < l.d.getYear())
             return -1;
-        else if(this.d.getYear() > l.d.getYear())
+        else if (this.d.getYear() > l.d.getYear())
             return 1;
-        else
-        {
-            if(this.d.getMonth() < l.d.getMonth())
+        else {
+            if (this.d.getMonth() < l.d.getMonth())
                 return -1;
-            else if(this.d.getMonth() > l.d.getMonth())
+            else if (this.d.getMonth() > l.d.getMonth())
                 return 1;
             else
                 return Integer.compare(this.d.getDay(), l.d.getDay());
         }
     }
-    static Comparator<Lembrete> getComparadorTitulo() {
+
+    static Comparator<Lembrete> getComparadorTitulo() { //Compare all notes title
         return new Comparator<Lembrete>() {
             @Override
             public int compare(Lembrete a, Lembrete b) {
-                return a.getTitle().compareTo(b.getTitle());
-            };
+                String A = a.getTitle().toLowerCase();
+                String B = b.getTitle().toLowerCase();
+                return A.compareTo(B);
+            }
+
+            ;
         };
     }
-
-//    static Comparator<Lembrete> getComparadorData() {
-//        return new Comparator<Lembrete>() {
-//            @Override
-//            public int compare(Lembrete a, Lembrete b) {
-//                if (b.d.getYear() < a.d.getYear())
-//                    return -1;
-//                else if (a.d.getYear() > b.d.getYear())
-//                    return 1;
-//                else {
-//                    if (a.d.getMonth() < b.d.getMonth())
-//                        return -1;
-//                    else if (a.d.getMonth() > b.d.getMonth())
-//                        return 1;
-//                    else
-//                        return Integer.compare(a.d.getDay(), b.d.getDay());
-//                }
-//            };
-//        };
-//    }
 }
 
-/*
- */
