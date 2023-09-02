@@ -8,6 +8,8 @@ package lembretesapp;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -176,6 +178,14 @@ public class Screen extends JFrame {
             }
         });
 
+        //To not allow the date window to be closed and there is no date
+        date.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Desmarque a checkBox de data
+                data.setSelected(false);
+            }
+        });
 
         //Button for save the note in the list
         saveButton.addActionListener(new ActionListener() {
@@ -191,6 +201,7 @@ public class Screen extends JFrame {
 
                     //If user insert manually date, receive the parameters
                     if (data.isSelected()) {
+
                         int day = Integer.parseInt(dayTextField.getText());
                         int month = Integer.parseInt(monthTextField.getText());
                         int year = Integer.parseInt(yearTextField.getText());
