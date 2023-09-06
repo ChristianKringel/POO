@@ -15,16 +15,24 @@ import java.util.List;
 import javax.swing.*;
 
 
+// Código testado diversas vezes, buscando impedir todos os bugs possíveis
+// Testado por uma última vez em 05.09
+// Qualquer dúvida sobre utilização crmkringel@inf.ufpel.edu.br
+
+// Para alterações no tamanho das páginas ou no tamanho do frame
+// Deve mudar ambos, se aumentar o tamanho de notas por página, vai extrapolar o tamanho da janela
 
 /**
  *
  * @author Christian
  */
+
 public class Screen extends JFrame {
     private List<Lembrete> notes;   //Main list
     private JFrame frame;           //Main frame/Window
     private JPanel notePanel;
-
+    private int currentPage;        //Self descriptive
+    private int pageSize = 10;  //Number of notes per page
     BlocoDeLembretes b = new BlocoDeLembretes();
 
 
@@ -35,12 +43,30 @@ public class Screen extends JFrame {
         notePanel = new JPanel();
         notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
 
+
         /* ########################################################### */
         //All buttons and your functions
         //Declare buttons
         JButton sortDate = new JButton("Sort by date");
         JButton addButton = new JButton("Add Note");
         JButton sortTitle = new JButton("Sort by title");
+        JButton nextButton = new JButton("Next Page");
+        JButton prevButton = new JButton("Previous Page");
+
+        nextButton.addActionListener(e -> {
+            if (currentPage < (notes.size() - 1) / pageSize) {
+                currentPage++;
+                updateNoteList();
+            }
+        });
+
+        prevButton.addActionListener(e -> {
+            if (currentPage > 0) {
+                currentPage--;
+                updateNoteList();
+            }
+        });
+
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,26 +95,29 @@ public class Screen extends JFrame {
 
         //Button panel to organize the layout better
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1, 3));
+        buttonPanel.setLayout(new GridLayout(1, 5));
         buttonPanel.add(addButton);
         buttonPanel.add(sortDate);
         buttonPanel.add(sortTitle);
+        buttonPanel.add(prevButton);
+        buttonPanel.add(nextButton);
 
         add(notePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
         add(notePanel, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); //Open main window maximized
+        setResizable(false);
+        setPreferredSize(new Dimension(1280, 720));
+        setLocationRelativeTo(null);
+        pack();
         setVisible(true);
     }
 
 
 
     /* ########################################################### */
-    private void showAddNoteDialog() {      //Frame para quando clicar no add nova nota
-
+    private void showAddNoteDialog() {      //Frame for when to open a existing note
         Calendar c = Calendar.getInstance();    //For get the system date
 
         JDialog dialog = new JDialog(frame, "Add Note", true);
@@ -113,7 +142,6 @@ public class Screen extends JFrame {
         JPanel datePanel = new JPanel();
 
         datePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        //datePanel.setLayout(new BoxLayout(datePanel, BoxLayout.Y_AXIS));
 
         //Declaring the buttons
         JButton saveButton = new JButton("Save");
@@ -162,6 +190,11 @@ public class Screen extends JFrame {
                     JOptionPane.showMessageDialog(new JFrame(), "Date cannot be empty", //Date cannot be empty message
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
+
+                else if(!checkDigit(dayText) || !checkDigit(monthText) || !checkDigit(yearText)) //Text if date is digit or char
+                    JOptionPane.showMessageDialog(new JFrame(), "Please enter a digit, not a char",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+
                 else {
                     //Date fields receive the textFields content
                     int day = Integer.parseInt(dayText);
@@ -266,21 +299,24 @@ public class Screen extends JFrame {
     //UPDATE LIST AFTER SAVE
     private void updateNoteList() {         //Att all time
         notePanel.removeAll();
-        for (Lembrete note : notes) {       //For all notes
-                JButton noteButton = new JButton(note.getTitle());  //Button of title, if click this, open the details of that note
-                noteButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        showNoteDetailDialog(note);
-                    }
-                });
-                noteButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align the button
-                noteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, noteButton.getPreferredSize().height)); // Set maximum width
-                notePanel.add(noteButton);  //Add a panel contains the title
-            }
-            notePanel.revalidate();             //Refresh layout
-            notePanel.repaint();                //Show alterations
+        int startIndex = currentPage * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, notes.size());
 
+        /* ################################################ */
+        // For using the index of pages
+        for (int i = startIndex; i < endIndex; i++) {
+            Lembrete note = notes.get(i);
+            JButton noteButton = new JButton(note.getTitle());
+            noteButton.addActionListener(e -> showNoteDetailDialog(note));
+            noteButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+            // If you prefer not to set a default size, use this one
+            //noteButton.setPreferredSize(new Dimension(Integer.MAX_VALUE, noteButton.getPreferredSize().height)));
+            noteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 65));
+            notePanel.add(noteButton);
+        }
+
+        notePanel.revalidate();
+        notePanel.repaint();
     }
 
 
@@ -407,5 +443,20 @@ public class Screen extends JFrame {
                 (day <= 30 || month != 11) &&
                 (month != 2 || (day <= 29 && (day <= 28 || isLeapYear(year))))
                 && year != 0;
+    }
+
+    //Check if the checkBox is a digit
+    private boolean checkDigit(String test)
+    {
+        int count = 0;
+        for(int i = 0; i < test.length(); i++)
+        {
+            if(Character.isDigit(test.charAt(i)))
+                count++;
+        }
+        if(count != 0)
+            return true;
+        else
+            return false;
     }
 }
