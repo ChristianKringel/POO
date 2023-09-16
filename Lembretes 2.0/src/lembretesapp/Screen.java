@@ -37,12 +37,13 @@ public class Screen extends JFrame {
 
 
 
-
+    //Constructor and define a main frame
     public Screen() {
         notes = new ArrayList<>();
         notePanel = new JPanel();
         notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
-
+        //notePanel.setLayout(new GridLayout(10, 1));
+        notePanel.setMaximumSize(new Dimension(1280, 720));
 
         /* ########################################################### */
         //All buttons and your functions
@@ -102,6 +103,7 @@ public class Screen extends JFrame {
         buttonPanel.add(prevButton);
         buttonPanel.add(nextButton);
 
+        //Add components
         add(notePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
         add(notePanel, BorderLayout.CENTER);
@@ -109,7 +111,6 @@ public class Screen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setPreferredSize(new Dimension(1280, 720));
-        setLocationRelativeTo(null);
         pack();
         setVisible(true);
     }
@@ -117,7 +118,8 @@ public class Screen extends JFrame {
 
 
     /* ########################################################### */
-    private void showAddNoteDialog() {      //Frame for when to open a existing note
+    //Frame for when to open a existing note
+    private void showAddNoteDialog() {      
         Calendar c = Calendar.getInstance();    //For get the system date
 
         JDialog dialog = new JDialog(frame, "Add Note", true);
@@ -149,7 +151,7 @@ public class Screen extends JFrame {
         JButton cancelButton = new JButton("Cancel");
         JPanel buttonDatePanel = new JPanel();
         buttonDatePanel.setLayout(new GridLayout(1, 2));
-        buttonDatePanel.add(saveButtonDate, BorderLayout.WEST);
+        buttonDatePanel.add(saveButtonDate, BorderLayout.WEST); //Organize the layout
         buttonDatePanel.add(cancelButton, BorderLayout.EAST);
 
         //Fields of date window
@@ -186,11 +188,14 @@ public class Screen extends JFrame {
                 String monthText = monthTextField.getText();
                 String yearText = yearTextField.getText();
 
+                /* ###################### */ 
+                //Test to see if the date fits all parameters 
+                //Test if date is empty
                 if (dayText.isEmpty() || monthText.isEmpty() || yearText.isEmpty()) {
                     JOptionPane.showMessageDialog(new JFrame(), "Date cannot be empty", //Date cannot be empty message
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
+                //Test if date is digitq
                 else if(!checkDigit(dayText) || !checkDigit(monthText) || !checkDigit(yearText)) //Text if date is digit or char
                     JOptionPane.showMessageDialog(new JFrame(), "Please enter a digit, not a char",
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -200,7 +205,8 @@ public class Screen extends JFrame {
                     int day = Integer.parseInt(dayText);
                     int month = Integer.parseInt(monthText);
                     int year = Integer.parseInt(yearText);
-
+                    
+                    //Test if date is valid
                     //if (day < 1 || day > 31 || (month == 2 && (day > 29 || (day > 28 && !isLeapYear(year)))) || month < 1 || month > 12 || year == 0)
                     if(!validDate(day, month, year))
                         JOptionPane.showMessageDialog(new JFrame(), "Please enter a valid date",
@@ -212,6 +218,7 @@ public class Screen extends JFrame {
         });
 
         //To not allow the date window to be closed and there is no date
+        //if it closes without putting a date, uncheck the checkBox and use the system date
         date.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -234,7 +241,8 @@ public class Screen extends JFrame {
 
                     //If user insert manually date, receive the parameters
                     if (data.isSelected()) {
-
+                        
+                        //Convert the date types
                         int day = Integer.parseInt(dayTextField.getText());
                         int month = Integer.parseInt(monthTextField.getText());
                         int year = Integer.parseInt(yearTextField.getText());
@@ -301,20 +309,54 @@ public class Screen extends JFrame {
         notePanel.removeAll();
         int startIndex = currentPage * pageSize;
         int endIndex = Math.min(startIndex + pageSize, notes.size());
+        //JPanel organize = new JPanel();
+        //organize.setLayout(new BoxLayout(organize, BoxLayout.X_AXIS));
+       
+       //notePanelItem.setLayout();
 
         /* ################################################ */
         // For using the index of pages
         for (int i = startIndex; i < endIndex; i++) {
+             JButton removeButton = new JButton("X");
             Lembrete note = notes.get(i);
             JButton noteButton = new JButton(note.getTitle());
+            JPanel notePanelItem = new JPanel(); // (new GridLayout(1, 2));
+            notePanelItem.setLayout(new BoxLayout(notePanelItem, BoxLayout.X_AXIS));
             noteButton.addActionListener(e -> showNoteDetailDialog(note));
+            //Remove button - delete a note
+            removeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int response = JOptionPane.showConfirmDialog(
+                            notePanel,
+                            "Are you sure you want to delete this note??", //Dialog for confirmation the remove
+                            "Confirmation", //Title for the box
+                            JOptionPane.YES_NO_OPTION //Options yes and not
+                    );
+                    //If the yes has selected, delete that note
+                    if (response == JOptionPane.YES_OPTION) {
+                        for (Lembrete l : notes) {
+                            if (l.equals(note)) {
+                                notes.remove(l);
+                                updateNoteList();
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            });
+            //Configure the buttons layout / size
+            removeButton.setMaximumSize(new Dimension(30, 65));
+            removeButton.setBackground(Color.BLACK);
             noteButton.setAlignmentX(Component.LEFT_ALIGNMENT);
             // If you prefer not to set a default size, use this one
-            //noteButton.setPreferredSize(new Dimension(Integer.MAX_VALUE, noteButton.getPreferredSize().height)));
+           // noteButton.setPreferredSize(new Dimension(Integer.MAX_VALUE, 65));
             noteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 65));
-            notePanel.add(noteButton);
+            notePanelItem.add(noteButton);
+            notePanelItem.add(removeButton);
+            notePanel.add(notePanelItem);
         }
-
         notePanel.revalidate();
         notePanel.repaint();
     }
@@ -327,23 +369,26 @@ public class Screen extends JFrame {
             //New window with detail of that note
             JDialog dialog = new JDialog(frame, "Note Detail", true);
             dialog.setResizable(true);
-            dialog.setLayout(new BorderLayout());
+            dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
 
-            // Date and Title
-            JLabel dateLabel = new JLabel("Data: " + note.getData());
-            JButton titleLabel = new JButton(note.getTitle());
-            JPanel titleDatePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            titleDatePanel.add(titleLabel);
-            titleDatePanel.add(dateLabel);
+            // Date
+            JLabel dateLabel = new JLabel("Date: " + note.getData());
+            dialog.add(dateLabel);
+            
+            //Title
+            JLabel titleLabel = new JLabel("Title: ");
+            JTextArea titleArea = new JTextArea(note.getTitle(), 1, 20);
+            titleArea.setEditable(false);
+            dialog.add(titleLabel);
+            dialog.add(titleArea);
 
             // Content
             JLabel contentLabel = new JLabel("Content: ");
-            JTextArea contentTextArea = new JTextArea(note.getDesc());
+            JTextArea contentTextArea = new JTextArea(note.getDesc(), 20, 30);
             contentTextArea.setEditable(false);
             JScrollPane scrollPane = new JScrollPane(contentTextArea);
-            JPanel contentPanel = new JPanel(new BorderLayout());
-            contentPanel.add(contentLabel, BorderLayout.NORTH);
-            contentPanel.add(scrollPane, BorderLayout.CENTER);
+            dialog.add(contentLabel, BorderLayout.NORTH);
+            dialog.add(scrollPane, BorderLayout.CENTER);
 
             JCheckBox editContent = new JCheckBox("Edit content");
 
@@ -351,6 +396,7 @@ public class Screen extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     contentTextArea.setEditable(editContent.isSelected());
+                    titleArea.setEditable(editContent.isSelected());
                 }
             });
 
@@ -401,10 +447,20 @@ public class Screen extends JFrame {
             saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    //String newTitle = titleLabel.getText().trim(); 
+                    if (titleArea.getText().isEmpty())            //Isn't permitted a empty note
+                {
+                    JOptionPane.showMessageDialog(new JFrame(), "You need to digit a title", //Granted to digit a title
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                } 
+                    else {
                     note.setDesc(contentTextArea.getText());
+                    note.setTitle(titleArea.getText());
                     JOptionPane.showMessageDialog(new JFrame(), "Your changes have been saved!",
                             "Saved Changes", JOptionPane.WARNING_MESSAGE);
                     dialog.dispose();
+                    updateNoteList();
+                    }
                 }
             });
 
@@ -416,12 +472,10 @@ public class Screen extends JFrame {
             buttonPanel.add(cancelButton);
             buttonPanel.add(editContent);
             buttonPanel.add(saveButton);
+            dialog.add(buttonPanel);
             /* ########################################################### */
-            //Add all components to the main window
+            //Configurate the dialog view 
             dialog.setResizable(true);
-            dialog.add(titleDatePanel, BorderLayout.NORTH);
-            dialog.add(contentPanel, BorderLayout.CENTER);
-            dialog.add(buttonPanel, BorderLayout.SOUTH);
             dialog.pack();
             dialog.setVisible(true);
 

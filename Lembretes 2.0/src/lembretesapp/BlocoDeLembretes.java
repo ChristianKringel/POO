@@ -15,12 +15,12 @@ import java.util.List;
 public class BlocoDeLembretes {
     private List<Lembrete> list;
     private int position;
-    public BlocoDeLembretes()                           // Cria a lista 
+    public BlocoDeLembretes()                           // Create a list
     {
         list = new ArrayList<>();
     }
     
-       public Lembrete search(int position)             //Busca um Lembrete com base em determinado index
+       public Lembrete search(int position)             //Search a note with a index
        {
         return list.get(position);
         }
@@ -30,12 +30,12 @@ public class BlocoDeLembretes {
            //return list.contains(search);
        }    */
     
-    public void order(List<Lembrete> l)                                 //Ordena a lista com base no compareTo e no Comparable definidos na classe Lembrete
+    public void order(List<Lembrete> l)                                 //Sort the list with Comparable and CompareTo defined on Lembrete class
     {
         Collections.sort(l);
     }
 
-    public void orderTitle(List<Lembrete> l)
+    public void orderTitle(List<Lembrete> l)    //Order notes with title(Alphabetical) 
     {
         Collections.sort(l, Lembrete.getComparadorTitulo());
     }
@@ -52,7 +52,7 @@ public class BlocoDeLembretes {
     }
     
 
-
+    // IGNORE ALL DOWN 
     /* ####################################################### */
     /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
     //Nothing from here on down is used
