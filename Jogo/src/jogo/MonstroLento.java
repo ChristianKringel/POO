@@ -2,10 +2,9 @@
 package jogo;
 
 
-public class Jogador implements Personagem {
-    private int posX;
-    private int posY;
-    private int vida;
+public class MonstroLento implements Personagem {
+    int posX;
+    int posY;
     
     @Override
    public int getPosX(){

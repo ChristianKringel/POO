@@ -1,27 +1,9 @@
-
 package jogo;
 
+interface Monstro {
 
-public class Monstro implements Personagem {
-    int posX;
-    int posY;
-    
-    @Override
-   public int getPosX(){
-        return posX;
-    }
-    
-    @Override
-    public int getPosY(){
-        return posY;
-    }
-   
-    @Override
-   public void setPosX(int posX){
-       this.posX = posX;
-   }
-    @Override
-   public void setPosY(int posY){
-       this.posY = posY;
-   }
+    public int getPosX();
+    public int getPosY();
+    public void setPosX(int posX);
+    public void setPosY(int posY);
 }
