@@ -1,24 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package jogo;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.util.Scanner;
 
-/**
- *
- * @author Christian
- */
 public class Jogo {
 
     
-    
-    
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        // TODO code application logic here
         int contador;
         //System.out.println("Teste");
         //new Tabuleiro();
