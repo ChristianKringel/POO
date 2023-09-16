@@ -16,6 +16,7 @@ public class Tabuleiro extends JFrame{
             BotaoTabuleiro[][] botaoDireita;
     public Tabuleiro()
     {
+        
         setDefaultCloseOperation(3);
         setTitle("Teste");
         setLayout(null);
@@ -30,14 +31,13 @@ public class Tabuleiro extends JFrame{
 //        add(panel);
         
         
-    
-        
             for(int i = 0; i < 15; i++)
             {
                 for(int j = 0; j < 15; j++)
                 {
                    
                     botoesTabuleiro[i][j] = new BotaoTabuleiro(i, j);
+                    
                     botoesTabuleiro[i][j].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -48,25 +48,18 @@ public class Tabuleiro extends JFrame{
                            }
                     });
                     botoesTabuleiro[i][j].setBounds((42 * i) + 20, (42 * j) + 20, 42, 42);
+                                        
                     add(botoesTabuleiro[i][j]);
                 }
             }
         
-
+        
                     botaoCima = new JButton ("Cima");
                             botaoCima.setBounds(650, 20, 100, 30);
                             botaoCima.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    /*BotaoTabuleiro botao = (BotaoTabuleiro)e.getSource();
-                                    for(int i = 0; i < 15; i++) {
-                                        for (int j = 0; j < 15; j++) {
-                                            botoesTabuleiro[i][j].setPosY(botoesTabuleiro[i][j].getPosY() + 1);
-                                            System.out.println("Posicao X: " + botao.getPosX());
-                                            System.out.println("Posicao Y: " + botao.getPosY());
-                                            System.out.println("------------------------------------");
-                                        }
-                                    }*/
+                                    // Lógica para mover para cima
                                 }
                             });
                             add(botaoCima);

@@ -10,6 +10,9 @@ public class BotaoTabuleiro extends JButton {
     public BotaoTabuleiro(int posX, int posY){
         this.posX = posX;
         this.posY = posY;
+        
+       // setBackground();
+        
     } 
     
     public int getPosX(){
@@ -19,8 +22,4 @@ public class BotaoTabuleiro extends JButton {
     public int getPosY(){
         return posY;
     }
-
-
-  public void setPosX(int posX) {this.posX = posX; }
-  public void setPosY(int posY) {this.posY = posY; }
 }
