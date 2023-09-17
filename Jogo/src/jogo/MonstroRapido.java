@@ -1,3 +1,4 @@
+
 package jogo;
 
 public class MonstroRapido implements Personagem {

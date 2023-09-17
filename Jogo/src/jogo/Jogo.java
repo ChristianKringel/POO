@@ -1,3 +1,4 @@
+
 package jogo;
 
 import javax.swing.JButton;
@@ -10,8 +11,6 @@ public class Jogo {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int contador;
-        //System.out.println("Teste");
-        //new Tabuleiro();
         Tabuleiro t = new Tabuleiro();
 
     }

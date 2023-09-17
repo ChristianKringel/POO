@@ -1,3 +1,4 @@
+
 package jogo;
 
 import javax.swing.JButton;
@@ -11,8 +12,7 @@ public class BotaoTabuleiro extends JButton {
     public BotaoTabuleiro(int posX, int posY){
         this.posX = posX;
         this.posY = posY;
-       //setBackground(Color.black);
-
+   
     } 
     
     public int getPosX(){

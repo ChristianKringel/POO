@@ -39,15 +39,8 @@ public class Tabuleiro extends JFrame {
         pack();
         monstroLento.setPosX(9);
         monstroLento.setPosY(9);
-        monstroRapido.setPosX(7); // Defina a posição inicial do monstroRapido
-        monstroRapido.setPosY(7); // Defina a posição inicial do monstroRapido
-        //atualizarDestaque();
-
-
-//        JPanel panel = new JPanel();
-//        panel.setBounds(20, 20, 600, 600);
-//        add(panel);
-
+        monstroRapido.setPosX(7); 
+        monstroRapido.setPosY(7); 
 
         for (int j = 14; j >= 0; j--) {
             for (int i = 0; i < 15; i++) {
@@ -238,7 +231,6 @@ public class Tabuleiro extends JFrame {
         Random random = new Random();
         int num;
         int contador = 0;
-        //int[] num = new int[8];
         int minimo = 0;
         int maximo = 7;
         
@@ -317,14 +309,16 @@ public class Tabuleiro extends JFrame {
         } while(contador == 0);
     }
 
-
-
-    public void testPoco(){
-
-    }
 }
 
+//    public void testPoco(){
+//
+//    }
+
+
 // #############################
+
+//PEDRO e ALEMON
 // Movimentacao wumpus Lento
 // Num = 0 -> cima, 1 baixo, 2 esquerda, 3 direita
 
@@ -338,5 +332,3 @@ public class Tabuleiro extends JFrame {
 // Num = 5 -> direita, direita, baixo
 // Num = 6 -> baixo, baixo, direita
 // Num = 7 -> baixo, baixo, esquerda
-
-/* do */
