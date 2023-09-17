@@ -158,7 +158,7 @@ public class Tabuleiro extends JFrame {
 
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                // Verifique se o botão é a posição do jogador, do monstroLento ou do monstroRapido
+                // Verifique se o botão é a posição do jogador, do monstroLento ou do monstroRapido || itensT(i
                 if ((i == xJogador && j == yJogador) || (i == xMonstroLento && j == yMonstroLento) || (i == xMonstroRapido && j == yMonstroRapido)) {
                     // Se for a posição do jogador, do monstroLento ou do monstroRapido, defina a cor de destaque correspondente
                     if (i == xJogador && j == yJogador) {
@@ -176,7 +176,20 @@ public class Tabuleiro extends JFrame {
         }
     }
 
+    public void moverPersonagem(int pos){
+        if(pos == 0) {
 
+        }
+        if(pos == 1){
+
+        }
+        if(pos == 2){
+
+        }
+        if(pos == 3){
+
+        }
+    }
 
     private void atualizarDestaqueMonstro() {
         // Limpe o destaque em todos os botões
@@ -240,7 +253,24 @@ public class Tabuleiro extends JFrame {
             }
         } while(contador == 0);
     }
-    
+
+
+    public void posicaoItensTabuleiro(int index){
+        // Gerando um lugar aleatorio para spawn de madeira e poco
+        Random random = new Random();
+        int min = 0;
+        int max = 14;
+        int madeiraX;
+        int madeiraY;
+        int pocoX = random.nextInt(max - min + 1) + min;
+        int pocoY = random.nextInt(max - min + 1) + min;
+        do {
+            madeiraX = random.nextInt(max - min + 1) + min;
+            madeiraY = random.nextInt(max - min + 1) + min;
+        } while(madeiraX == pocoX && madeiraY == pocoY);
+        itensT.add(index, new ItensTabuleiro(madeiraX,madeiraY, pocoX, pocoY));
+        //ItensTabuleiro itens = new ItensTabuleiro(madeiraX, madeiraY, pocoX, pocoY);
+    }
      public void posicaoInicialMonstroRapido() {
         Random random = new Random();
         int min = 0;
