@@ -11,7 +11,8 @@ import java.util.Random;
 
 public class Tabuleiro extends JFrame {
     private static final Color COR_DESTAQUE_POCO = Color.BLUE;
-    private static final Color COR_DESTAQUE_MADEIRA = Color.GREEN; 
+    private static final Color COR_DESTAQUE_MADEIRA = Color.GREEN;
+    private static final Color COR_DESTAQUE_OURO = Color.MAGENTA;
     private static final Color COR_DESTAQUE_JOGADOR = Color.YELLOW;
     private static final Color COR_DESTAQUE_MONSTRO = Color.BLACK;
     private static final Color COR_DESTAQUE_MONSTRO_RAPIDO = Color.RED;
@@ -46,6 +47,7 @@ public class Tabuleiro extends JFrame {
         player.setPosX(0);
         botoesTabuleiro[0][0].adcionarDestaque(COR_DESTAQUE_JOGADOR);
         criaPocos();
+        criaOuro();
         criaMadeira();
         moverMonstroRapido();
         moverMonstroLento();
@@ -243,6 +245,25 @@ public class Tabuleiro extends JFrame {
             
             if(!botoesTabuleiro[madeiraX][madeiraY].temAlguemAqui()){
                 botoesTabuleiro[madeiraX][madeiraY].adcionarDestaque(COR_DESTAQUE_MADEIRA);
+                i++;
+            }
+        }
+    }
+    
+    public void criaOuro(){
+        
+        Random random = new Random();
+        int i=0;
+        int min = 0;
+        int max = 14;
+        
+        while(i<1){
+            
+            int ouroX = random.nextInt(max - min + 1) + min;
+            int ouroY = random.nextInt(max - min + 1) + min;
+            
+            if(!botoesTabuleiro[ouroX][ouroY].temAlguemAqui()){
+                botoesTabuleiro[ouroX][ouroY].adcionarDestaque(COR_DESTAQUE_OURO);
                 i++;
             }
         }
