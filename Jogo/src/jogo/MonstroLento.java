@@ -2,9 +2,21 @@
 package jogo;
 
 
+import java.util.Random;
+
 public class MonstroLento implements Personagem {
     int posX;
     int posY;
+
+    public MonstroLento() {
+        Random random = new Random();
+        int min = 0;
+        int max = 14;
+        int x = random.nextInt(max - min + 1) + min;
+        int y = random.nextInt(max - min + 1) + min;
+        this.setPosX(x);
+        this.setPosY(y);
+    }
     
     @Override
    public int getPosX(){
