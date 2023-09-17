@@ -37,10 +37,11 @@ public class Tabuleiro extends JFrame {
         setPreferredSize(new Dimension(950, 700));
         setResizable(false);
         pack();
-        monstroLento.setPosX(9);
-        monstroLento.setPosY(9);
-        monstroRapido.setPosX(7); 
-        monstroRapido.setPosY(7); 
+        posicaoInicialMonstroLento();
+        posicaoInicialMonstroRapido();
+
+//        monstroRapido.setPosX(7); 
+//        monstroRapido.setPosY(7); 
 
         for (int j = 14; j >= 0; j--) {
             for (int i = 0; i < 15; i++) {
@@ -134,7 +135,6 @@ public class Tabuleiro extends JFrame {
         });
         add(botaoEsquerda);
 
-
         setVisible(true);
     }
 
@@ -193,6 +193,19 @@ public class Tabuleiro extends JFrame {
         }
     }
 
+    public void posicaoInicialMonstroLento() {
+        Random random = new Random();
+        int min = 0;
+        int max = 14;
+
+        int x = random.nextInt(max - min + 1) + min;
+        int y = random.nextInt(max - min + 1) + min;
+
+        monstroLento.setPosX(x);
+        monstroLento.setPosY(y);
+    }
+    
+
     private void moverMonstroLento() {
 
         Random random = new Random();
@@ -226,6 +239,18 @@ public class Tabuleiro extends JFrame {
                 }
             }
         } while(contador == 0);
+    }
+    
+     public void posicaoInicialMonstroRapido() {
+        Random random = new Random();
+        int min = 0;
+        int max = 14;
+
+        int x = random.nextInt(max - min + 1) + min;
+        int y = random.nextInt(max - min + 1) + min;
+
+        monstroRapido.setPosX(x);
+        monstroRapido.setPosY(y);
     }
     private void moverMonstroRapido() {
         Random random = new Random();
