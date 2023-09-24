@@ -159,6 +159,9 @@ public class Tabuleiro extends JFrame {
                     System.exit(0);
                 }
         }
+        if(brisa(novoX, novoY))
+            JOptionPane.showMessageDialog(this, "Você está sentindo uma brisa, cuidado", "Brisa", JOptionPane.INFORMATION_MESSAGE);
+
         if(jogadorPoco(novoX, novoY)) {
             JOptionPane.showMessageDialog(null, "Você caiu em um poço, fim de jogo!", "Game Over", JOptionPane.WARNING_MESSAGE);
             player.setVida(0);
@@ -563,14 +566,57 @@ public class Tabuleiro extends JFrame {
         return false;
     }
 
-    private void brisa(int x,int y){
+    /* private boolean brisa(int x,int y){
         BotaoTabuleiro destino = botoesTabuleiro[x][y];
-        boolean teste = false;
-        if(destino.retornarItem() == TipoDeItem.POCO)
-            teste = true;
-        if(destino.getPosX() - 1 == destino // == (destino.retornarItem() == TipoDeItem.POCO))
+            if (destino.getPosX() - 1 == player.getPosX() && destino.getPosY() == player.getPosY()
+                    || destino.getPosX() + 1 == player.getPosX() && destino.getPosY() == player.getPosY()
+                    || destino.getPosY() - 1 == player.getPosY() && destino.getPosX() == player.getPosX()
+                    || destino.getPosY() + 1 == player.getPosY() && destino.getPosX() == player.getPosX()){
+                if(destino.retornarItem() == TipoDeItem.POCO)
+            return true;
+            }
+        return false;
+        } */
+    private boolean brisa(int x, int y) {
+        if (x - 1 >= 0 && botoesTabuleiro[x - 1][y].retornarItem() == TipoDeItem.POCO) {
+            return true;
+        }
+        if (x + 1 < 15 && botoesTabuleiro[x + 1][y].retornarItem() == TipoDeItem.POCO) {
+            return true;
+        }
+        if (y - 1 >= 0 && botoesTabuleiro[x][y - 1].retornarItem() == TipoDeItem.POCO) {
+            return true;
+        }
+        if (y + 1 < 15 && botoesTabuleiro[x][y + 1].retornarItem() == TipoDeItem.POCO) {
+            return true;
+        }
+
+        return false;
     }
 
+    private boolean jogadorAdjacenteAoMonstro(int x, int y) {
+        // Verifique se a célula à esquerda do jogador tem um monstro
+        if (botoesTabuleiro[x - 1][y].retornarPersonagem() == ) {
+            return true;
+        }
+
+        // Verifique se a célula à direita do jogador tem um monstro
+        if (botoesTabuleiro[x + 1][y].retornarPersonagem()) {
+            return true;
+        }
+
+        // Verifique se a célula acima do jogador tem um monstro
+        if (botoesTabuleiro[x][y - 1].retornarPersonagem()) {
+            return true;
+        }
+
+        // Verifique se a célula abaixo do jogador tem um monstro
+        if (botoesTabuleiro[x][y + 1].retornarPersonagem()) {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 
