@@ -67,6 +67,9 @@ public class Jogador implements Personagem {
     }
 
     public void setQuantidadeMadeira(int quantidadeMadeira){ this.quantidadeMadeira = quantidadeMadeira; }
+    public void setQuantidadeFlecha(int quantidadeFlecha) { this.quantidadeFlecha = quantidadeFlecha; }
+    public void setBateriaLanterna(int bateriaLanterna) { this.bateriaLanterna = bateriaLanterna; }
+    public void setQuantidadeLanterna(int quantidadeLanterna) { this.quantidadeLanterna = quantidadeLanterna; }
     
     public int getBateriaLanterna() {
         if(quantidadeLanterna > 0){
