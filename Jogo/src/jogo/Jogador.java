@@ -65,6 +65,8 @@ public class Jogador implements Personagem {
     public int getQuantidadeLanterna() {
          return quantidadeLanterna;
     }
+
+    public void setQuantidadeMadeira(int quantidadeMadeira){ this.quantidadeMadeira = quantidadeMadeira; }
     
     public int getBateriaLanterna() {
         if(quantidadeLanterna > 0){
@@ -99,7 +101,6 @@ public class Jogador implements Personagem {
              return false;
          }
     }
-    
     public void criarFlecha() {
         if(quantidadeMadeira>0){
             quantidadeFlecha++;
