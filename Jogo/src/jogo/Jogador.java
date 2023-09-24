@@ -1,6 +1,8 @@
 
 package jogo;
 
+import javax.swing.JOptionPane;
+
 
 public class Jogador implements Personagem {
     private int posX;
@@ -12,6 +14,7 @@ public class Jogador implements Personagem {
     private int quantidadeArco = 0;
     private int quantidadeFlecha = 0;
     private int quantidadeLanterna = 0;
+    private int bateriaLanterna = 0;
 
     public Jogador() {
          this.posX = 0;
@@ -19,6 +22,7 @@ public class Jogador implements Personagem {
          this.capacidadeMochila = 3;
          this.quantidadeArco = 1;
          this.quantidadeLanterna = 1;
+         this.bateriaLanterna = 2;
          this.vida = 100;
      }
 
@@ -61,6 +65,14 @@ public class Jogador implements Personagem {
     public int getQuantidadeLanterna() {
          return quantidadeLanterna;
     }
+    
+    public int getBateriaLanterna() {
+        if(quantidadeLanterna > 0){
+         return bateriaLanterna;
+        } else{
+            return bateriaLanterna = 0;
+        }
+    }
 
     public boolean temEspacoNaMochila() {
          return (quantidadeMadeira + quantidadeArco + quantidadeFlecha + quantidadeLanterna + quantidadeOuro) < capacidadeMochila;
@@ -94,6 +106,47 @@ public class Jogador implements Personagem {
             quantidadeMadeira--;
         }
     }
+    public void descartarItem(){
+        String[] opcoesItens = {"Ouro", "Madeira", "Arco", "Flecha", "Lanterna"};
+        String itemSelecionado = (String) JOptionPane.showInputDialog(null, "Escolha um item para descartar:", "Descartar Item", JOptionPane.QUESTION_MESSAGE, null, opcoesItens, opcoesItens[0]);
+
+            if (itemSelecionado != null) {
+            switch (itemSelecionado) {
+                case "Madeira":
+                    if(quantidadeMadeira > 0) quantidadeMadeira--;
+                    break;
+                case "Arco":
+                    if(quantidadeArco > 0) quantidadeArco--;
+                    break;
+                case "Flecha":
+                    if(quantidadeFlecha > 0) quantidadeFlecha--;
+                    break;
+                case "Lanterna":
+                    if(quantidadeLanterna > 0) quantidadeLanterna--;
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Você não pode descartar ouro! Vai perder o jogo kkkk", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    break;
+            }
+
+            }
+    }
+    
+//    public void usarLanterna(String direcao) {
+//        if (bateriaLanterna <= 0) {
+//            JOptionPane.showMessageDialog(null, "A bateria da lanterna está esgotada.", "Lanterna", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//
+//        String[] direcoes = {"Cima", "Baixo", "Esquerda", "Direita"};
+//        String direcaoEscolhida = (String) JOptionPane.showInputDialog(null, "Escolha a direção para usar a lanterna:", "Lanterna", JOptionPane.QUESTION_MESSAGE, null, direcoes, direcoes[0]);
+//
+//        if (direcaoEscolhida != null) {
+//            bateriaLanterna--;
+//            iluminarCasas(direcaoEscolhida);
+//            JOptionPane.showMessageDialog(null, "A lanterna revelou as casas na direção " + direcaoEscolhida + ".", "Lanterna", JOptionPane.INFORMATION_MESSAGE);
+//        }
+//    }
 
     public int getVida() {
         return vida;

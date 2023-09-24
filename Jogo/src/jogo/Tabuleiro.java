@@ -21,8 +21,12 @@ public class Tabuleiro extends JFrame {
     private final JButton botaoDireita;
     private final JButton botaoFinalizar;
     private final JButton botaoCriaFlecha;
+    private final JButton botaoLanterna;
     private final JButton botaoRecomecar;
+    private final JButton botaoDescartarItem;
     private final JLabel campoVida;
+    private final JLabel campoArco;
+    private final JLabel campoLanterna;
     private final JLabel campoMadeira;
     private final JLabel campoOuro;
     private final JLabel campoFlecha;
@@ -64,6 +68,15 @@ public class Tabuleiro extends JFrame {
             this.campoOuro = new JLabel("Ouro: " + this.player.getQuantidadeOuro());
             this.campoOuro.setBounds(650, 275, 100, 30);
             add(this.campoOuro);
+            
+            this.campoArco = new JLabel("Arco: " + this.player.getQuantidadeArco());
+            this.campoArco.setBounds(650, 300, 100, 30);
+            add(this.campoArco);
+
+            this.campoLanterna = new JLabel("Cargas Lanterna: " + this.player.getBateriaLanterna());
+            this.campoLanterna.setBounds(650, 325, 108, 30);
+            add(this.campoLanterna);
+
 
             botoesTabuleiro[0][0].adicionarPersonagem(player, COR_DESTAQUE_JOGADOR);
             criaPocos();
@@ -84,9 +97,19 @@ public class Tabuleiro extends JFrame {
             add(botaoRecomecar);
             
             botaoCriaFlecha = new JButton("Criar Flecha");
-            botaoCriaFlecha.setBounds(650, 400, 120, 30);
+            botaoCriaFlecha.setBounds(650, 400, 125, 30);
             botaoCriaFlecha.addActionListener(e -> criarFlecha());
             add(botaoCriaFlecha);
+            
+            botaoDescartarItem = new JButton("Descartar Item");
+            botaoDescartarItem.setBounds(650, 440, 125, 30);
+            botaoDescartarItem.addActionListener(e -> descartarItem());
+            add(botaoDescartarItem);
+            
+            botaoLanterna = new JButton("Lanterna");
+            botaoLanterna.setBounds(650, 360, 125, 30);
+            //botaoLanterna.addActionListener(e -> usarLanterna());
+            add(botaoLanterna);
 
             botaoCima = new JButton("Cima");
             botaoCima.setBounds(650, 20, 100, 30);
@@ -169,8 +192,52 @@ public class Tabuleiro extends JFrame {
             novoTabuleiro.setVisible(true);
         });
     }
-
-
+    
+    private void descartarItem(){
+        player.descartarItem();
+        atualizaCampoItens();
+    }
+    
+//    private void usarLanterna() {
+//    String[] direcoes = {"Cima", "Baixo", "Esquerda", "Direita"};
+//    String direcaoEscolhida = (String) JOptionPane.showInputDialog(null, "Escolha a direção para usar a lanterna:", "Lanterna", JOptionPane.QUESTION_MESSAGE, null, direcoes, direcoes[0]);
+//
+//        if (direcaoEscolhida != null) {
+//            // Passa a direção para a classe Jogador
+//            //bateriaLanterna--; // Reduz a bateria da lanterna na classe Tabuleiro
+//            iluminarCasas(direcaoEscolhida); // Ilumina as casas no Tabuleiro
+//            JOptionPane.showMessageDialog(null, "A lanterna revelou as casas na direção " + direcaoEscolhida + ".", "Lanterna", JOptionPane.INFORMATION_MESSAGE);
+//        }
+//    }
+//    
+//    private void iluminarCasas(String direcao){
+//        int x = player.getPosX();
+//        int y = player.getPosY();
+//
+//        switch (direcao) {
+//            case "Cima":
+//                for (int i = y; i < 15; i++) {
+//                    botoesTabuleiro[x][i].
+//                }
+//                break;
+//            case "Baixo":
+//                for (int i = y; i >= 0; i--) {
+//                    botoesTabuleiro[x][i].revelarCasa();
+//                }
+//                break;
+//            case "Esquerda":
+//                for (int i = x; i >= 0; i--) {
+//                    botoesTabuleiro[i][y].revelarCasa();
+//                }
+//                break;
+//            case "Direita":
+//                for (int i = x; i < 15; i++) {
+//                    botoesTabuleiro[i][y].revelarCasa();
+//                }
+//                break;
+//        }
+//    }   
+    
     private void atualizaPosicaoJogador(int xNovo, int yNovo) {
         System.out.println("Movendo jogador para (" + xNovo + ", " + yNovo + ")");
         Personagem p = botoesTabuleiro[xNovo][yNovo].retornarPersonagem();
@@ -450,6 +517,8 @@ public class Tabuleiro extends JFrame {
         this.campoMadeira.setText("Madeira: " + this.player.getQuantidadeMadeira());
         this.campoOuro.setText("Ouro: " + this.player.getQuantidadeOuro());
         this.campoFlecha.setText("Flecha: " + this.player.getQuantidadeFlecha());
+        this.campoLanterna.setText("Cargas Lanterna: " + this.player.getBateriaLanterna());
+        this.campoArco.setText("Arco: " + this.player.getQuantidadeArco());
     }
 
 }
