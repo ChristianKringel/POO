@@ -6,15 +6,20 @@ public class Jogador implements Personagem {
     private int posX;
     private int posY;
     private int vida;
-    private int capacidadeMochila;
-    private int quantidadeOuro;
-    private int quantidadeMadeira;
-    private int quantidadeArco;
-    private int quantidadeFlecha;
-    private int quantidadeLanterna;
+    private int capacidadeMochila = 0;
+    private int quantidadeOuro = 0;
+    private int quantidadeMadeira = 0;
+    private int quantidadeArco = 0;
+    private int quantidadeFlecha = 0;
+    private int quantidadeLanterna = 0;
 
-   public Jogador(int capacidadeMochila) {
-        this.capacidadeMochila = capacidadeMochila;
+   public Jogador() {
+        this.posX = 0;
+        this.posY = 0;
+        this.capacidadeMochila = 3;
+        this.quantidadeArco = 1;
+        this.quantidadeLanterna = 1;
+        this.vida = 100;
     }
    
     @Override
@@ -60,31 +65,14 @@ public class Jogador implements Personagem {
    public boolean temEspacoNaMochila() {
         return (quantidadeMadeira + quantidadeArco + quantidadeFlecha + quantidadeLanterna + quantidadeOuro) < capacidadeMochila;
    }
-//   public void imprimirConteudoMochila() {
-//        System.out.println("Conteúdo da mochila do jogador:");
-//
-//        if (this.capacidadeMochila.isEmpty()) {
-//            System.out.println("A mochila está vazia.");
-//        } else {
-//            for (String item : mochila) {
-//                System.out.println(item);
-//            }
-//        }
-//    }
-   public int adicionarArco(){
-       int arco = 0;
-       return arco++;
-   }
-   public int adicionarLanterna(){
-       int lanterna = 0;
-       return lanterna++;
-   }
    
    public boolean adicionarOuro() {
         if (temEspacoNaMochila()) {
             quantidadeOuro++;
+            System.out.println("O jogador coletou Ouro. Total de Ouro: " + this.getQuantidadeOuro());
             return true;
         } else {
+            System.out.println("Mochila cheia, não coletou o ouro");
             return false;
         }
    }
@@ -92,11 +80,31 @@ public class Jogador implements Personagem {
    public boolean adicionarMadeira() {
         if (temEspacoNaMochila()) {
             quantidadeMadeira++;
+            System.out.println("O jogador coletou Madeira. Total de Madeira: " + this.getQuantidadeMadeira());
             return true;
         } else {
+            System.out.println("Mochila cheia, não coletou a madeira");
             return false;
         }
    }
-   
+//   public void criarFlecha() {
+//       
+//        
+//       
+//            Arrow arrow = new Arrow();
+//            Wood wood = new Wood(0,0,0);
+//            backpack.removeIf(item -> item instanceof Wood);
+//            backpack.add(arrow);
+//            arrow.addArrow();
+//            wood.decrementWood();
+//    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public void setVida(int vida) {
+       this.vida = vida;
+    }
 }
 

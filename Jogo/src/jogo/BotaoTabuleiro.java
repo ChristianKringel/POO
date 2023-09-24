@@ -2,45 +2,41 @@ package jogo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
+import static jogo.TipoDeItem.VAZIO;
 
 public class BotaoTabuleiro extends JButton {
-    private boolean temAlguemAqui = false;
-    private int posX;
-    private int posY;
-    private TipoDeItem tipo;
+    private static final Color COR_DESTAQUE_MADEIRA = Color.GREEN;
+    private static final Color COR_DESTAQUE_OURO = Color.MAGENTA;
+    private final int posX;
+    private final int posY;
     private boolean escondido;
-    private ArrayList<Personagem> listaPersonagem;
-    private ArrayList<ItensTabuleiro> listaItens;
-    
+    private Personagem personagem = null;
+    private TipoDeItem item = VAZIO;
+
+
     public BotaoTabuleiro(int i, int j) {
         this.posX = i;
         this.posY = j;
+        this.escondido = true;
         int x = i * 42;
         int y = (14 - j) * 42; // Ajuste para inverter a ordem das linhas
-        tipo = TipoDeItem.VAZIO;
-        listaItens = new ArrayList<ItensTabuleiro>();
-        listaPersonagem = new ArrayList<Personagem>();
         this.setBounds(x, y, 42, 42);
         this.setOpaque(true);
         this.setBorderPainted(true);
-        this.setBackground(Color.white);
+        this.setBackground(Color.gray);
         this.addActionListener(e -> {
             BotaoTabuleiro botao = (BotaoTabuleiro) e.getSource();
-            System.out.println("Posicao X: " + botao.getPosX());
-            System.out.println("Posicao Y: " + botao.getPosY());
+            System.out.println("\n");
+            System.out.println("-----------------------");
+            System.out.println("X: " + botao.getPosX());
+            System.out.println("Y: " + botao.getPosY());
+            System.out.println("Escondido: " + botao.escondido);
             System.out.println("Tem Alguem Aqui: " + botao.temAlguemAqui());
-            System.out.println("Tipo de Item: " + botao.getTipoDeItem());
+            System.out.println("Personagem: " + botao.personagem);
+            System.out.println("Item: " + botao.item);
             System.out.println("------------------------------------");
         });
-        
-        if(i+j == 0){
-            escondido = false;
-        }else {
-            escondido = false;
-        }
     }
 
     public int getPosX() {
@@ -52,73 +48,72 @@ public class BotaoTabuleiro extends JButton {
     }
 
     public boolean temAlguemAqui() {
-        return this.temAlguemAqui;
-    }
-    
-    public void adicionarDestaque(Color color) {
-        this.setBackground(color);
-        this.temAlguemAqui = true;
+        if (this.personagem != null) {
+            return true;
+        } else return this.item != VAZIO;
+
     }
 
-    public void adcionarDestaqueItem(Color color) {
-        this.setBackground(color);
-        this.temAlguemAqui = false;
+    public void adicionarPersonagem(Personagem personagem, Color color) {
+        this.personagem = personagem;
+        if (this.personagem.getClass().getSimpleName().equals(Jogador.class.getSimpleName())) {
+            System.out.println("Adicionando jogador: " + personagem);
+            this.setBackground(color);
+            this.escondido = false;
+            return;
+        } else {
+            System.out.println("Adicionando monstro: " + personagem);
+        }
+        if (!this.escondido) {
+            this.setBackground(color);
+        }
     }
 
-    public void removerDestaque() {
-        this.setBackground(Color.white);
-        this.temAlguemAqui = false;
+    public void removerPersonagem() {
+        if (personagem.getClass().getSimpleName().equals(Jogador.class.getSimpleName())) {
+            System.out.println("Removendo jogador: " + personagem);
+        } else {
+            System.out.println("Removendo monstro: " + personagem);
+        }
+        atualizaBackground();
+        this.personagem = null;
     }
 
-    public enum TipoDeItem {
-        VAZIO, POCO, MADEIRA, OURO
-    }
-    
-    public enum TipoDePersonagem {
-        VAZIO, JOGADOR, MONSTRO_RAPIDO, MONSTRO_NORMAL
-    }
-    
-    public TipoDeItem getTipoDeItem() {
-        return tipo;
+    public Personagem retornarPersonagem() {
+        return this.personagem;
     }
 
-    public void setTipoDeItem(TipoDeItem tipo) {
-        this.tipo = tipo;
+    public boolean temJogador() {
+        return personagem.getClass().getSimpleName().equals(Jogador.class.getSimpleName());
     }
-        
-    public void setTemAlguemAqui(boolean temAlguemAqui) {
-        this.temAlguemAqui = temAlguemAqui;
+
+    public void adicionarItem(TipoDeItem item, Color color) {
+        this.item = item;
+        if (!escondido) {
+            this.setBackground(color);
+        }
     }
-    
-    public boolean getEscondido(){
-        return escondido;
+
+    public void removerItem() {
+        this.item = VAZIO;
+        setBackground(Color.WHITE);
     }
-    
-    public void setEscondido(boolean escondido){
-        this.escondido = escondido;
+
+    public TipoDeItem retornarItem() {
+        return this.item;
     }
-    
-    public void adicionarPersonagem(Personagem personagem){
-        listaPersonagem.add(personagem);
-    }
-    
-    public void removerPersonagem(Personagem personagem){
-        listaPersonagem.remove(personagem);
-    }
-    
-    public ArrayList<Personagem> retornarPersonagem (){
-        return listaPersonagem;
-    }
-    
-    public void adicionarItem(ItensTabuleiro itens){
-        listaItens.add(itens);
-    }
-    
-    public void removerItem(ItensTabuleiro itens){
-        listaItens.remove(itens);
-    }
-    
-    public ArrayList<ItensTabuleiro> retornarItem (){
-        return listaItens;
+
+    private void atualizaBackground() {
+        if (this.escondido) {
+            this.setBackground(Color.GRAY);
+            return;
+        }
+
+        switch (item){
+            case MADEIRA -> this.setBackground(COR_DESTAQUE_MADEIRA);
+            case OURO -> this.setBackground(COR_DESTAQUE_OURO);
+            case VAZIO -> this.setBackground(Color.WHITE);
+            default -> System.out.println("Item errado");
+        }
     }
 }
