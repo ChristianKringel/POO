@@ -24,6 +24,7 @@ public class Tabuleiro extends JFrame {
     private final JButton botaoLanterna;
     private final JButton botaoRecomecar;
     private final JButton botaoDescartarItem;
+    private final JButton botaoDebug;
     private final JLabel campoVida;
     private final JLabel campoArco;
     private final JLabel campoLanterna;
@@ -31,6 +32,7 @@ public class Tabuleiro extends JFrame {
     private final JLabel campoOuro;
     private final JLabel campoFlecha;
     private final Jogador player;
+    private boolean debug = false;
     private int nJogadas = 0;
 
     public Tabuleiro() {
@@ -45,7 +47,7 @@ public class Tabuleiro extends JFrame {
 
             for (int j = 14; j >= 0; j--) {
                 for (int i = 0; i < 15; i++) {
-                    botoesTabuleiro[i][j] = new BotaoTabuleiro(i, j);
+                    botoesTabuleiro[i][j] = new BotaoTabuleiro(i, j, debug);
                     add(botoesTabuleiro[i][j]);
                 }
             }
@@ -76,6 +78,11 @@ public class Tabuleiro extends JFrame {
             this.campoLanterna = new JLabel("Cargas Lanterna: " + this.player.getBateriaLanterna());
             this.campoLanterna.setBounds(650, 325, 108, 30);
             add(this.campoLanterna);
+            
+            botaoDebug = new JButton("Debug");
+            botaoDebug.setBounds(750, 605, 100, 30);
+            botaoDebug.addActionListener(e -> this.toggleDebug());
+            add(botaoDebug);
 
 
             botoesTabuleiro[0][0].adicionarPersonagem(player, COR_DESTAQUE_JOGADOR);
@@ -521,4 +528,14 @@ public class Tabuleiro extends JFrame {
         this.campoArco.setText("Arco: " + this.player.getQuantidadeArco());
     }
 
+    public void toggleDebug() {
+        this.debug = !this.debug;
+        System.out.println("Debug set to: " + this.debug);
+
+        for (int j = 14; j >= 0; j--) {
+                for (int i = 0; i < 15; i++) {
+                    botoesTabuleiro[i][j].setDebug(this.debug);
+                }
+            }
+    }
 }
