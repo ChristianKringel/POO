@@ -492,9 +492,6 @@ public class Tabuleiro extends JFrame {
             case MADEIRA:
                 coletarMadeira(destino);
                 break;
-            case POCO:
-                caiuPoco();
-                break;
             default:
                 break;
         }
@@ -512,14 +509,6 @@ public class Tabuleiro extends JFrame {
         if (adicionou) {
             botaoMadeira.removerItem();
         }
-    }
-
-    private void caiuPoco() {
-        //botaoPoco.removerDestaque(); // Remove o destaque da Madeira no botão
-        //botaoPoco.setTipoDeItem(BotaoTabuleiro.TipoDeItem.VAZIO); // Marca o botão como vazio
-        //player.adicionarMadeira(); // Incrementa a quantidade de Madeira do jogador
-        System.out.println("\n");
-        System.out.println("O jogador caiu num poco.  ");
     }
 
     private void atualizaCampoVida() {
@@ -566,17 +555,6 @@ public class Tabuleiro extends JFrame {
         return false;
     }
 
-    /* private boolean brisa(int x,int y){
-        BotaoTabuleiro destino = botoesTabuleiro[x][y];
-            if (destino.getPosX() - 1 == player.getPosX() && destino.getPosY() == player.getPosY()
-                    || destino.getPosX() + 1 == player.getPosX() && destino.getPosY() == player.getPosY()
-                    || destino.getPosY() - 1 == player.getPosY() && destino.getPosX() == player.getPosX()
-                    || destino.getPosY() + 1 == player.getPosY() && destino.getPosX() == player.getPosX()){
-                if(destino.retornarItem() == TipoDeItem.POCO)
-            return true;
-            }
-        return false;
-        } */
     private boolean brisa(int x, int y) {
         if (x - 1 >= 0 && botoesTabuleiro[x - 1][y].retornarItem() == TipoDeItem.POCO) {
             return true;
@@ -594,29 +572,29 @@ public class Tabuleiro extends JFrame {
         return false;
     }
 
-    private boolean jogadorAdjacenteAoMonstro(int x, int y) {
-        // Verifique se a célula à esquerda do jogador tem um monstro
-        if (botoesTabuleiro[x - 1][y].retornarPersonagem() == ) {
-            return true;
-        }
-
-        // Verifique se a célula à direita do jogador tem um monstro
-        if (botoesTabuleiro[x + 1][y].retornarPersonagem()) {
-            return true;
-        }
-
-        // Verifique se a célula acima do jogador tem um monstro
-        if (botoesTabuleiro[x][y - 1].retornarPersonagem()) {
-            return true;
-        }
-
-        // Verifique se a célula abaixo do jogador tem um monstro
-        if (botoesTabuleiro[x][y + 1].retornarPersonagem()) {
-            return true;
-        }
-
-        return false;
-    }
+//    private boolean jogadorAdjacenteAoMonstro(int x, int y) {
+//        // Verifique se a célula à esquerda do jogador tem um monstro
+//        if (botoesTabuleiro[x - 1][y].retornarPersonagem() == ) {
+//            return true;
+//        }
+//
+//        // Verifique se a célula à direita do jogador tem um monstro
+//        if (botoesTabuleiro[x + 1][y].retornarPersonagem()) {
+//            return true;
+//        }
+//
+//        // Verifique se a célula acima do jogador tem um monstro
+//        if (botoesTabuleiro[x][y - 1].retornarPersonagem()) {
+//            return true;
+//        }
+//
+//        // Verifique se a célula abaixo do jogador tem um monstro
+//        if (botoesTabuleiro[x][y + 1].retornarPersonagem()) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 }
 
 
