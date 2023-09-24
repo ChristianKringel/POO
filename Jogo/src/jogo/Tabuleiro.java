@@ -107,22 +107,22 @@ public class Tabuleiro extends JFrame {
         add(botaoRecomecar);
 
         botaoAtiraFlecha = new JButton("Atirar uma flecha");
-        botaoAtiraFlecha.setBounds(650, 480, 125, 30);
+        botaoAtiraFlecha.setBounds(650, 440, 140, 30);
         botaoAtiraFlecha.addActionListener(e -> flechaDirecao());
         add(botaoAtiraFlecha);
 
         botaoCriaFlecha = new JButton("Criar Flecha");
-        botaoCriaFlecha.setBounds(650, 400, 125, 30);
+        botaoCriaFlecha.setBounds(650, 400, 140, 30);
         botaoCriaFlecha.addActionListener(e -> criarFlecha());
         add(botaoCriaFlecha);
 
         botaoDescartarItem = new JButton("Descartar Item");
-        botaoDescartarItem.setBounds(650, 440, 125, 30);
+        botaoDescartarItem.setBounds(650, 480, 140, 30);
         botaoDescartarItem.addActionListener(e -> descartarItem());
         add(botaoDescartarItem);
 
         botaoLanterna = new JButton("Lanterna");
-        botaoLanterna.setBounds(650, 360, 125, 30);
+        botaoLanterna.setBounds(650, 360, 140, 30);
         botaoLanterna.addActionListener(e -> usarLanterna());
         add(botaoLanterna);
 
@@ -169,6 +169,8 @@ public class Tabuleiro extends JFrame {
         }
         if (brisa(novoX, novoY))
             JOptionPane.showMessageDialog(this, "Você está sentindo uma brisa, cuidado", "Brisa", JOptionPane.INFORMATION_MESSAGE);
+        if(brilhoOuro(novoX, novoY))
+            JOptionPane.showMessageDialog(this, "Você está sentindo um brilho radiante", "Brisa", JOptionPane.INFORMATION_MESSAGE);
 //        if(atirarFlecha(0))
 //            JOptionPane.showMessageDialog(null, "Você está abaixo do monstro!!", "Aviso", JOptionPane.WARNING_MESSAGE);
         // if(ehWumpus(novoX, novoY))
@@ -190,10 +192,11 @@ public class Tabuleiro extends JFrame {
             if (player.getVida() > 0) {
                 coletaItem();
                 atualizaCampoItens();
-                if(!monstroLentoFlecha)
-                    moverMonstroLento();
+                if(!monstroLentoFlecha) {
+                    // moverMonstroLento();
+                }
                 if(!monstroRapidoFlecha)
-                    moverMonstroRapido();
+                    //moverMonstroRapido();
                if (monstroPerto(novoX, novoY))
                     JOptionPane.showMessageDialog(this, "Você está sentindo um fedor, cuidado", "Fedor", JOptionPane.INFORMATION_MESSAGE);
                 atualizaCampoVida();
@@ -221,6 +224,7 @@ public class Tabuleiro extends JFrame {
             JOptionPane.showMessageDialog(null, "Você não possui madeiras!!", "Aviso", JOptionPane.WARNING_MESSAGE);
         else {
             player.criarFlecha();
+            JOptionPane.showMessageDialog(null, "Você criou uma flecha!!", "Aviso", JOptionPane.WARNING_MESSAGE);
             atualizaCampoItens();
         }
     }
@@ -249,7 +253,7 @@ public class Tabuleiro extends JFrame {
 //            JOptionPane.showMessageDialog(null, "A lanterna revelou as casas na direção " + direcaoEscolhida + ".", "Lanterna", JOptionPane.INFORMATION_MESSAGE);
 //        }
 //    }
-//    
+//
 //    private void iluminarCasas(String direcao){
 //        int x = player.getPosX();
 //        int y = player.getPosY();
@@ -281,21 +285,23 @@ public class Tabuleiro extends JFrame {
     private void atualizaPosicaoJogador(int xNovo, int yNovo) {
         System.out.println("Movendo jogador para (" + xNovo + ", " + yNovo + ")");
         Personagem p = botoesTabuleiro[xNovo][yNovo].retornarPersonagem();
-        if (p != null) {
-            System.out.println("Monstro " + p.getClass().getSimpleName() + " em (" + xNovo + ", " + yNovo + ")");
-            if (p.getClass().getSimpleName().equals(MonstroLento.class.getSimpleName())) {
-                System.out.println("Montro lento encontrou o jogador. Fim da partida!");
-                player.setVida(0);
-                atualizaCampoVida();
-                return;
-            } else {
-                System.out.println("Montro rapido encontrou o jogador. Atualizando vida");
-                player.setVida(player.getVida() - 50);
-                System.out.println("Vida: " + player.getVida());
-                atualizaCampoVida();
-                if (player.getVida() == 0) {
-                    System.out.println("Fim da partida!");
+        if(!monstroLentoFlecha || !monstroRapidoFlecha) {
+            if (p != null) {
+                System.out.println("Monstro " + p.getClass().getSimpleName() + " em (" + xNovo + ", " + yNovo + ")");
+                if (p.getClass().getSimpleName().equals(MonstroLento.class.getSimpleName()) && !monstroLentoFlecha) {
+                    System.out.println("Montro lento encontrou o jogador. Fim da partida!");
+                    player.setVida(0);
+                    atualizaCampoVida();
                     return;
+                } else  if (p.getClass().getSimpleName().equals(MonstroRapido.class.getSimpleName()) && !monstroRapidoFlecha){
+                    System.out.println("Montro rapido encontrou o jogador. Atualizando vida");
+                    player.setVida(player.getVida() - 50);
+                    System.out.println("Vida: " + player.getVida());
+                    atualizaCampoVida();
+                    if (player.getVida() == 0) {
+                        System.out.println("Fim da partida!");
+                        return;
+                    }
                 }
             }
         }
@@ -311,22 +317,23 @@ public class Tabuleiro extends JFrame {
 
     private void atualizarPosicaoMonstro(Personagem m, Color c, int xAntigo, int yAntigo, int xNovo, int yNovo) {
         Personagem p = botoesTabuleiro[xNovo][yNovo].retornarPersonagem();
-        if (p != null && p.getClass().getSimpleName().equals(Jogador.class.getSimpleName())) {
-            System.out.println("Monstro encontrou " + p.getClass().getSimpleName() + " em X: " + xNovo + " Y: " + yNovo);
-            if (m.getClass().getSimpleName().equals(MonstroLento.class.getSimpleName())) {
-                System.out.println("Montro lento encontrou o jogador. Fim de partida!");
-                player.setVida(0);
-                atualizaCampoVida();
-            } else {
-                System.out.println("Montro rapido encontrou o jogador. Atualizando vida");
-                player.setVida(player.getVida() - 50);
-                atualizaCampoVida();
-                if (player.getVida() == 0) {
-                    System.out.println("Montro rapido matou o jogador. Fim da partida!");
+        if(!monstroLentoFlecha || !monstroRapidoFlecha) {
+            if (p != null && p.getClass().getSimpleName().equals(Jogador.class.getSimpleName()) && !monstroLentoFlecha) {
+                System.out.println("Monstro encontrou " + p.getClass().getSimpleName() + " em X: " + xNovo + " Y: " + yNovo);
+                if (m.getClass().getSimpleName().equals(MonstroLento.class.getSimpleName())) {
+                    System.out.println("Montro lento encontrou o jogador. Fim de partida!");
+                    player.setVida(0);
+                    atualizaCampoVida();
+                } else  {
+                    System.out.println("Montro rapido encontrou o jogador. Atualizando vida");
+                    player.setVida(player.getVida() - 50);
+                    atualizaCampoVida();
+                    if (player.getVida() == 0) {
+                        System.out.println("Montro rapido matou o jogador. Fim da partida!");
+                    }
                 }
             }
         }
-
         botoesTabuleiro[xNovo][yNovo].adicionarPersonagem(m, c);
 
         if (botoesTabuleiro[xAntigo][yAntigo].retornarPersonagem() != null && !botoesTabuleiro[xAntigo][yAntigo].temJogador()) {
@@ -508,9 +515,11 @@ public class Tabuleiro extends JFrame {
         switch (tipoDeItem) {
             case OURO:
                 coletarOuro(destino);
+                destino.setBackground(COR_DESTAQUE_JOGADOR);
                 break;
             case MADEIRA:
                 coletarMadeira(destino);
+                destino.setBackground(COR_DESTAQUE_JOGADOR);
                 break;
             default:
                 break;
@@ -592,6 +601,22 @@ public class Tabuleiro extends JFrame {
 
         return false;
     }
+    private boolean brilhoOuro(int x, int y) {
+        if (x - 1 >= 0 && botoesTabuleiro[x - 1][y].retornarItem() == TipoDeItem.OURO) {
+            return true;
+        }
+        if (x + 1 < 15 && botoesTabuleiro[x + 1][y].retornarItem() == TipoDeItem.OURO) {
+            return true;
+        }
+        if (y - 1 >= 0 && botoesTabuleiro[x][y - 1].retornarItem() == TipoDeItem.OURO) {
+            return true;
+        }
+        if (y + 1 < 15 && botoesTabuleiro[x][y + 1].retornarItem() == TipoDeItem.OURO) {
+            return true;
+        }
+
+        return false;
+    }
 
     private boolean monstroPerto(int x, int y) {
         int alcance = 1;
@@ -622,35 +647,144 @@ public class Tabuleiro extends JFrame {
         return false;
     }
 
+    private int monstroLentoPerto(int x, int y) {
+        if (x - 1 >= 0) {
+            Personagem personagem = botoesTabuleiro[x - 1][y].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroLento) {
+                return 3;
+            }
+        }
+        if (x + 1 < 15) {
+            Personagem personagem = botoesTabuleiro[x + 1][y].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroLento) {
+                return 2;
+            }
+        }
+        if (y - 1 >= 0) {
+            Personagem personagem = botoesTabuleiro[x][y - 1].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroLento) {
+                return 1;
+            }
+        }
+        if (y + 1 < 15) {
+            Personagem personagem = botoesTabuleiro[x][y + 1].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroLento) {
+                return 0;
+            }
+        }
+        return -1;
+    }
+    private int monstroRapidoPerto(int x, int y) {
+        if (x - 1 >= 0) {
+            Personagem personagem = botoesTabuleiro[x - 1][y].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroRapido) {
+                return 3;
+            }
+        }
+        if (x + 1 < 15) {
+            Personagem personagem = botoesTabuleiro[x + 1][y].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroRapido) {
+                return 2;
+            }
+        }
+        if (y - 1 >= 0) {
+            Personagem personagem = botoesTabuleiro[x][y - 1].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroRapido) {
+                return 1;
+            }
+        }
+        if (y + 1 < 15) {
+            Personagem personagem = botoesTabuleiro[x][y + 1].retornarPersonagem();
+            if (personagem != null && personagem instanceof MonstroRapido) {
+                return 0;
+            }
+        }
+        return -1;
+    }
+
     public void atirarFlecha(int valor) {
         if (valor == 0) {
-            if(monstroPerto(player.getPosX(), player.getPosY() + 1))
-
-               // return true;
+            if (monstroLentoPerto(player.getPosX(), player.getPosY()) == 0) {
+                monstroLentoFlecha = true;
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX()][player.getPosY() + 1];
+                destino.setBackground(Color.white);
+                JOptionPane.showMessageDialog(null, "Você matou o monstro Lento!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+                else if (monstroRapidoPerto(player.getPosX(), player.getPosY()) == 0) {
+                monstroRapidoFlecha = true;
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX()][player.getPosY() + 1];
+                destino.setBackground(Color.white);
+                JOptionPane.showMessageDialog(null, "Você matou o monstro rapido!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Você errou a flecha!!", "Aviso", JOptionPane.WARNING_MESSAGE);
             player.setQuantidadeFlecha(player.getQuantidadeFlecha() - 1);
-        } else if (valor == 1) {
-            if(monstroPerto(player.getPosX(), player.getPosY() - 1))
-            player.setQuantidadeFlecha(player.getQuantidadeFlecha() - 1);
-            //return true;
-        } else if (valor == 2) {
-            if(monstroPerto(player.getPosX() + 1, player.getPosY()))
-            player.setQuantidadeFlecha(player.getQuantidadeFlecha() - 1);
-            //return true;
-        } else if (valor == 3) {
-            if(monstroPerto(player.getPosX() - 1, player.getPosY()))
-            player.setQuantidadeFlecha(player.getQuantidadeFlecha() - 1);
-            //return true;
         }
-       // return false;
+            else if (valor == 1) {
+            if (monstroLentoPerto(player.getPosX(), player.getPosY()) == 1) {
+                monstroLentoFlecha = true;
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX()][player.getPosY() - 1];
+                destino.setBackground(Color.white);
+                JOptionPane.showMessageDialog(null, "Você matou o monstro Lento!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            } else if (monstroRapidoPerto(player.getPosX(), player.getPosY()) == 1) {
+
+                monstroRapidoFlecha = true;
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX()][player.getPosY() - 1];
+                destino.setBackground(Color.white);
+                JOptionPane.showMessageDialog(null, "Você matou o monstro rapido!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Você errou a flecha!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            player.setQuantidadeFlecha(player.getQuantidadeFlecha() - 1);
+        }
+            else if (valor == 2) {
+            if(monstroLentoPerto(player.getPosX(), player.getPosY()) == 2){
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX() + 1][player.getPosY()];
+                destino.setBackground(Color.white);
+                monstroLentoFlecha = true;
+                JOptionPane.showMessageDialog(null, "Você matou o monstro Lento!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+                else if (monstroRapidoPerto(player.getPosX(), player.getPosY()) == 2) {
+                monstroRapidoFlecha = true;
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX() + 1][player.getPosY()];
+                destino.setBackground(Color.white);
+                JOptionPane.showMessageDialog(null, "Você matou o monstro rapido!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Você errou a flecha!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            player.setQuantidadeFlecha(player.getQuantidadeFlecha() - 1);
+        }
+            else if (valor == 3) {
+            if(monstroLentoPerto(player.getPosX(), player.getPosY()) == 3) {
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX() + 1][player.getPosY()];
+                destino.setBackground(Color.white);
+                monstroLentoFlecha = true;
+                JOptionPane.showMessageDialog(null, "Você matou o monstro Lento!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else if (monstroRapidoPerto(player.getPosX(), player.getPosY()) == 3) {
+                monstroRapidoFlecha = true;
+                BotaoTabuleiro destino = botoesTabuleiro[player.getPosX() - 1][player.getPosY()];
+                destino.setBackground(Color.white);
+                JOptionPane.showMessageDialog(null, "Você matou o monstro rapido!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Você errou a flecha!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            player.setQuantidadeFlecha(player.getQuantidadeFlecha() - 1);
+        }
+            else
+            JOptionPane.showMessageDialog(null, "Você errou a flecha!!", "Aviso", JOptionPane.WARNING_MESSAGE);
     }
+
 // JOptionPane.showMessageDialog(null, "Você está abaixo do monstro!!", "Aviso", JOptionPane.WARNING_MESSAGE);
     public void flechaDirecao() {
         if(player.getQuantidadeFlecha() < 1)
             JOptionPane.showMessageDialog(null, "Você não possui flechas!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        else if(player.getQuantidadeArco() < 1)
+            JOptionPane.showMessageDialog(null, "Você não possui mais arco, reze!!", "Aviso", JOptionPane.WARNING_MESSAGE);
         else {
             String[] opcoesDirecao = {"Cima", "Baixo", "Direita", "Esquerda"};
             String direcaoSelecionada = (String) JOptionPane.showInputDialog(null, "Escolha uma direcao para atirar a flecha:",
-                    "Descartar Item", JOptionPane.QUESTION_MESSAGE, null, opcoesDirecao, opcoesDirecao[0]);
+                    "Atirar flecha", JOptionPane.QUESTION_MESSAGE, null, opcoesDirecao, opcoesDirecao[0]);
             if (direcaoSelecionada != null) {
                 switch (direcaoSelecionada) {
                     case "Cima":

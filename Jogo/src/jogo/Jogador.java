@@ -86,10 +86,13 @@ public class Jogador implements Personagem {
     public boolean adicionarOuro() {
          if (temEspacoNaMochila()) {
              quantidadeOuro++;
+             JOptionPane.showMessageDialog(null, "Você coletou o ouro!!\n Volte para a casa inicial e vença o jogo",
+                     "Aviso", JOptionPane.WARNING_MESSAGE);
              System.out.println("O jogador coletou Ouro. Total de Ouro: " + this.getQuantidadeOuro());
              return true;
          } else {
              System.out.println("Mochila cheia, não coletou o ouro");
+             JOptionPane.showMessageDialog(null, "Mochila cheia, jogue um item fora para pegar o ouro", "Aviso", JOptionPane.WARNING_MESSAGE);
              return false;
          }
     }
@@ -97,9 +100,12 @@ public class Jogador implements Personagem {
     public boolean adicionarMadeira() {
          if (temEspacoNaMochila()) {
              quantidadeMadeira++;
+             JOptionPane.showMessageDialog(null, "Você coletou uma madeira!\n Você pode usa-la para fazer flechas ou tapar um poço",
+                     "Aviso", JOptionPane.WARNING_MESSAGE);
              System.out.println("O jogador coletou Madeira. Total de Madeira: " + this.getQuantidadeMadeira());
              return true;
          } else {
+             JOptionPane.showMessageDialog(null, "Mochila cheia, jogue um item fora para pegar esta madeira", "Aviso", JOptionPane.WARNING_MESSAGE);
              System.out.println("Mochila cheia, não coletou a madeira");
              return false;
          }
