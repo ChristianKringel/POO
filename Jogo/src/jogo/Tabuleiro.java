@@ -161,7 +161,10 @@ public class Tabuleiro extends JFrame {
         }
         if(brisa(novoX, novoY))
             JOptionPane.showMessageDialog(this, "Você está sentindo uma brisa, cuidado", "Brisa", JOptionPane.INFORMATION_MESSAGE);
-
+//        if(ehWumpus(novoX, novoY)) {
+//            if (wumpusNaAdjacencia())
+//                JOptionPane.showMessageDialog(this, "Você está sentindo uma fedor, cuidado", "Fedor", JOptionPane.INFORMATION_MESSAGE);
+//        }
         if(jogadorPoco(novoX, novoY)) {
             JOptionPane.showMessageDialog(null, "Você caiu em um poço, fim de jogo!", "Game Over", JOptionPane.WARNING_MESSAGE);
             player.setVida(0);
@@ -179,7 +182,7 @@ public class Tabuleiro extends JFrame {
                 coletaItem();
                 atualizaCampoItens();
                 moverMonstroRapido();
-                moverMonstroLento();
+                //moverMonstroLento();
                 atualizaCampoVida();
                     if (player.getQuantidadeOuro() > 0 && player.getPosX() == 0 && player.getPosY() == 0) {
                         JOptionPane.showMessageDialog(this, "Parabéns! Você ganhou o jogo.", "Vitória", JOptionPane.INFORMATION_MESSAGE);
@@ -593,30 +596,46 @@ public class Tabuleiro extends JFrame {
 
         return false;
     }
+/*
+    private boolean wumpusNaAdjacencia() {
+        int playerX = player.getPosX();
+        int playerY = player.getPosY();
 
-    private boolean jogadorAdjacenteAoMonstro(int x, int y) {
-        // Verifique se a célula à esquerda do jogador tem um monstro
-        if (botoesTabuleiro[x - 1][y].retornarPersonagem() == ) {
+        // Verificar a adjacência superior
+        if (ehWumpus(playerX, playerY + 1)) {
             return true;
         }
 
-        // Verifique se a célula à direita do jogador tem um monstro
-        if (botoesTabuleiro[x + 1][y].retornarPersonagem()) {
+        // Verificar a adjacência inferior
+        if (ehWumpus(playerX, playerY - 1)) {
             return true;
         }
 
-        // Verifique se a célula acima do jogador tem um monstro
-        if (botoesTabuleiro[x][y - 1].retornarPersonagem()) {
+        // Verificar a adjacência esquerda
+        if (ehWumpus(playerX - 1, playerY)) {
             return true;
         }
 
-        // Verifique se a célula abaixo do jogador tem um monstro
-        if (botoesTabuleiro[x][y + 1].retornarPersonagem()) {
+        // Verificar a adjacência direita
+        if (ehWumpus(playerX + 1, playerY)) {
             return true;
         }
 
         return false;
-    }
+    } */ /*
+        private boolean ehWumpus(int x, int y) {
+                BotaoTabuleiro destino = botoesTabuleiro[x][y];
+                Personagem personagem = destino.retornarPersonagem();
+                if (personagem != null && personagem.getClass().getSimpleName().equals("Wumpus")) {
+                    if (player.getPosX() && player.getPosY() + 1)
+                        return true;
+                    if (ehWumpus(playerX, playerY - 1))
+                        return true;
+                    if (ehWumpus(playerX - 1, playerY))
+                        return true;
+                    if (ehWumpus(playerX + 1, playerY))
+            return false;
+        } */
 }
 
 
