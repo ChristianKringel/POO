@@ -20,85 +20,99 @@ public class Tabuleiro extends JFrame {
     private final JButton botaoEsquerda;
     private final JButton botaoDireita;
     private final JButton botaoFinalizar;
-    //private final JButton botaoCriaFlecha;
+    private final JButton botaoCriaFlecha;
+    private final JButton botaoRecomecar;
     private final JLabel campoVida;
     private final JLabel campoMadeira;
     private final JLabel campoOuro;
+    private final JLabel campoFlecha;
     private final Jogador player;
     private int nJogadas = 0;
 
     public Tabuleiro() {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Wumpus Game");
-        setLayout(null);
-        setBounds(165, 70, 900, 750);
-        setPreferredSize(new Dimension(950, 700));
-        setResizable(false);
-        pack();
-
-        for (int j = 14; j >= 0; j--) {
-            for (int i = 0; i < 15; i++) {
-                botoesTabuleiro[i][j] = new BotaoTabuleiro(i, j);
-                add(botoesTabuleiro[i][j]);
-            }
-        }
-        this.player = new Jogador();
-
-        this.campoVida = new JLabel("Vida: " + this.player.getVida());
-        this.campoVida.setBounds(650, 200, 100, 30);
-        this.campoVida.setOpaque(true);
-        this.campoVida.setBackground(Color.GREEN);
-        add(this.campoVida);
-
-        this.campoMadeira = new JLabel("Madeira: " + this.player.getQuantidadeMadeira());
-        this.campoMadeira.setBounds(650, 250, 100, 30);
-        add(this.campoMadeira);
-
-        this.campoOuro = new JLabel("Ouro: " + this.player.getQuantidadeOuro());
-        this.campoOuro.setBounds(650, 300, 100, 30);
-        add(this.campoOuro);
-
-        botoesTabuleiro[0][0].adicionarPersonagem(player, COR_DESTAQUE_JOGADOR);
-        criaPocos();
-        criaOuro();
-        criaMadeira();
-        moverMonstroRapido();
-        moverMonstroLento();
         
-//        botaoCriaFlecha = new JButton("Criar Flecha");
-//        botaoCriaFlecha.setBounds(650, 300, 100, 30);
-//        botaoCriaFlecha.addActionListener(e -> );
-//        add(botaoFinalizar);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setTitle("Wumpus Game");
+            setLayout(null);
+            setBounds(165, 70, 900, 750);
+            setPreferredSize(new Dimension(950, 700));
+            setResizable(false);
+            pack();
 
-        botaoFinalizar = new JButton("Sair");
-        botaoFinalizar.setBounds(650, 500, 100, 30);
-        botaoFinalizar.addActionListener(e -> System.exit(0));
-        add(botaoFinalizar);
+            for (int j = 14; j >= 0; j--) {
+                for (int i = 0; i < 15; i++) {
+                    botoesTabuleiro[i][j] = new BotaoTabuleiro(i, j);
+                    add(botoesTabuleiro[i][j]);
+                }
+            }
+            this.player = new Jogador();
 
-        botaoCima = new JButton("Cima");
-        botaoCima.setBounds(650, 20, 100, 30);
-        botaoCima.addActionListener(e -> novaJogada(player.getPosX(), player.getPosY() + 1));
-        add(botaoCima);
+            this.campoVida = new JLabel("Vida: " + this.player.getVida());
+            this.campoVida.setBounds(650, 200, 100, 30);
+            this.campoVida.setOpaque(true);
+            this.campoVida.setBackground(Color.GREEN);
+            add(this.campoVida);
+
+            this.campoMadeira = new JLabel("Madeira: " + this.player.getQuantidadeMadeira());
+            this.campoMadeira.setBounds(650, 225, 100, 30);
+            add(this.campoMadeira);
+            
+            this.campoFlecha = new JLabel("Flecha: " + this.player.getQuantidadeFlecha());
+            this.campoFlecha.setBounds(650, 250, 100, 30);
+            add(this.campoFlecha);
+
+            this.campoOuro = new JLabel("Ouro: " + this.player.getQuantidadeOuro());
+            this.campoOuro.setBounds(650, 275, 100, 30);
+            add(this.campoOuro);
+
+            botoesTabuleiro[0][0].adicionarPersonagem(player, COR_DESTAQUE_JOGADOR);
+            criaPocos();
+            criaOuro();
+            criaMadeira();
+            moverMonstroRapido();
+            moverMonstroLento();
 
 
-        botaoBaixo = new JButton("Baixo");
-        botaoBaixo.setBounds(650, 60, 100, 30);
-        botaoBaixo.addActionListener(e -> novaJogada(player.getPosX(), player.getPosY() - 1));
-        add(botaoBaixo);
+            botaoFinalizar = new JButton("Sair");
+            botaoFinalizar.setBounds(650, 605, 100, 30);
+            botaoFinalizar.addActionListener(e -> System.exit(0));
+            add(botaoFinalizar);
+            
+            botaoRecomecar = new JButton("Recomeçar o Jogo");
+            botaoRecomecar.setBounds(650, 570, 150, 30);
+            botaoRecomecar.addActionListener(e -> recomecarJogo());
+            add(botaoRecomecar);
+            
+            botaoCriaFlecha = new JButton("Criar Flecha");
+            botaoCriaFlecha.setBounds(650, 400, 120, 30);
+            botaoCriaFlecha.addActionListener(e -> criarFlecha());
+            add(botaoCriaFlecha);
 
-        botaoDireita = new JButton("Direita");
-        botaoDireita.setBounds(650, 100, 100, 30);
-        botaoDireita.addActionListener(e -> novaJogada(player.getPosX() + 1, player.getPosY()));
-        add(botaoDireita);
+            botaoCima = new JButton("Cima");
+            botaoCima.setBounds(650, 20, 100, 30);
+            botaoCima.addActionListener(e -> novaJogada(player.getPosX(), player.getPosY() + 1));
+            add(botaoCima);
 
-        botaoEsquerda = new JButton("Esquerda");
-        botaoEsquerda.setBounds(650, 140, 100, 30);
-        botaoEsquerda.addActionListener(e -> novaJogada(player.getPosX() - 1, player.getPosY()));
-        add(botaoEsquerda);
 
-        setVisible(true);
+            botaoBaixo = new JButton("Baixo");
+            botaoBaixo.setBounds(650, 60, 100, 30);
+            botaoBaixo.addActionListener(e -> novaJogada(player.getPosX(), player.getPosY() - 1));
+            add(botaoBaixo);
+
+            botaoDireita = new JButton("Direita");
+            botaoDireita.setBounds(650, 100, 100, 30);
+            botaoDireita.addActionListener(e -> novaJogada(player.getPosX() + 1, player.getPosY()));
+            add(botaoDireita);
+
+            botaoEsquerda = new JButton("Esquerda");
+            botaoEsquerda.setBounds(650, 140, 100, 30);
+            botaoEsquerda.addActionListener(e -> novaJogada(player.getPosX() - 1, player.getPosY()));
+            add(botaoEsquerda);
+
+            setVisible(true);
     }
 
+    
     private void novaJogada(int novoX, int novoY) {
         System.out.println("--- Inicio da Jogada " + this.nJogadas + " ---");
         System.out.println("Vida: " + player.getVida());
@@ -106,9 +120,14 @@ public class Tabuleiro extends JFrame {
         System.out.println("Monstro Rápido: (" + monstroRapido.getPosX() + ", " + monstroRapido.getPosY() + ")");
         System.out.println("Monstro Lento: (" + monstroLento.getPosX() + ", " + monstroLento.getPosY() + ")");
 
-        if (player.getVida() == 0) {
-            System.out.println("Jogador sem vida, finalizando a jogada");
-            return;
+        if (player.getVida() <= 0) {
+            JOptionPane.showMessageDialog(this, "Você Morreu! ", "Derrota", JOptionPane.INFORMATION_MESSAGE);
+            int escolha = JOptionPane.showOptionDialog(this,"Deseja recomeçar uma nova partida? ","Escolha",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] { "Recomeçar", "Sair" },"Recomeçar");
+                if (escolha == JOptionPane.YES_OPTION) {
+                    recomecarJogo();
+                } else {
+                    System.exit(0);
+                }
         }
 
         if (posicaoValida(novoX, novoY)) {
@@ -119,6 +138,15 @@ public class Tabuleiro extends JFrame {
                 moverMonstroRapido();
                 moverMonstroLento();
                 atualizaCampoVida();
+                    if (player.getQuantidadeOuro() > 0 && player.getPosX() == 0 && player.getPosY() == 0) {
+                        JOptionPane.showMessageDialog(this, "Parabéns! Você ganhou o jogo.", "Vitória", JOptionPane.INFORMATION_MESSAGE);
+                        int escolha = JOptionPane.showOptionDialog(this,"Deseja recomeçar uma nova partida? ","Escolha",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] { "Recomeçar", "Sair" },"Recomeçar");
+                            if (escolha == JOptionPane.YES_OPTION) {
+                                recomecarJogo();
+                            } else {
+                                System.exit(0);
+                            }
+                    }
             } else {
                 System.out.println("Jogador sem vida!");
             }
@@ -127,6 +155,19 @@ public class Tabuleiro extends JFrame {
         }
         System.out.println("--- Fim da Jogada " + this.nJogadas + " ---");
         nJogadas++;
+    }
+    
+    private void criarFlecha() {
+        player.criarFlecha();
+        atualizaCampoItens();
+    }
+    
+    private void recomecarJogo() {
+        dispose();
+        SwingUtilities.invokeLater(() -> {
+            Tabuleiro novoTabuleiro = new Tabuleiro();
+            novoTabuleiro.setVisible(true);
+        });
     }
 
 
@@ -408,6 +449,7 @@ public class Tabuleiro extends JFrame {
     private void atualizaCampoItens() {
         this.campoMadeira.setText("Madeira: " + this.player.getQuantidadeMadeira());
         this.campoOuro.setText("Ouro: " + this.player.getQuantidadeOuro());
+        this.campoFlecha.setText("Flecha: " + this.player.getQuantidadeFlecha());
     }
 
 }
