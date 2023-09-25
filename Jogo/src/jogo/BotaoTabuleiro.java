@@ -9,8 +9,8 @@ public class BotaoTabuleiro extends JButton {
     private boolean debug;
     private static final Color COR_DESTAQUE_POCO = Color.BLUE;
     private static final Color COR_DESTAQUE_MADEIRA = Color.GREEN;
-    private static final Color COR_DESTAQUE_OURO = Color.MAGENTA;
-    private static final Color COR_DESTAQUE_JOGADOR = Color.YELLOW;
+    private static final Color COR_DESTAQUE_OURO = Color.YELLOW;
+    private static final Color COR_DESTAQUE_JOGADOR = Color.MAGENTA;
     private static final Color COR_DESTAQUE_MONSTRO = Color.BLACK;
     private static final Color COR_DESTAQUE_MONSTRO_RAPIDO = Color.RED;
     private final int posX;
@@ -162,17 +162,4 @@ public class BotaoTabuleiro extends JButton {
         return this.item;
     }
 
-//    private void atualizaBackground() {
-//        if (this.escondido) {
-//            this.setBackground(Color.GRAY);
-//            return;
-//        }
-//
-//        switch (item){
-//            case MADEIRA -> this.setBackground(COR_DESTAQUE_MADEIRA);
-//            case OURO -> this.setBackground(COR_DESTAQUE_OURO);
-//            case VAZIO -> this.setBackground(Color.WHITE);
-//            default -> System.out.println("Item errado");
-//        }
-//    }
 }

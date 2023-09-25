@@ -142,22 +142,6 @@ public class Jogador implements Personagem {
             }
     }
     
-//    public void usarLanterna(String direcao) {
-//        if (bateriaLanterna <= 0) {
-//            JOptionPane.showMessageDialog(null, "A bateria da lanterna está esgotada.", "Lanterna", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//
-//        String[] direcoes = {"Cima", "Baixo", "Esquerda", "Direita"};
-//        String direcaoEscolhida = (String) JOptionPane.showInputDialog(null, "Escolha a direção para usar a lanterna:", "Lanterna", JOptionPane.QUESTION_MESSAGE, null, direcoes, direcoes[0]);
-//
-//        if (direcaoEscolhida != null) {
-//            bateriaLanterna--;
-//            iluminarCasas(direcaoEscolhida);
-//            JOptionPane.showMessageDialog(null, "A lanterna revelou as casas na direção " + direcaoEscolhida + ".", "Lanterna", JOptionPane.INFORMATION_MESSAGE);
-//        }
-//    }
-
     public int getVida() {
         return vida;
     }

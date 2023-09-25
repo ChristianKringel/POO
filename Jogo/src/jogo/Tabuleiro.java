@@ -8,8 +8,8 @@ import java.util.Random;
 public class Tabuleiro extends JFrame {
     private static final Color COR_DESTAQUE_POCO = Color.BLUE;
     private static final Color COR_DESTAQUE_MADEIRA = Color.GREEN;
-    private static final Color COR_DESTAQUE_OURO = Color.MAGENTA;
-    private static final Color COR_DESTAQUE_JOGADOR = Color.YELLOW;
+    private static final Color COR_DESTAQUE_OURO = Color.YELLOW;
+    private static final Color COR_DESTAQUE_JOGADOR = Color.MAGENTA;
     private static final Color COR_DESTAQUE_MONSTRO = Color.BLACK;
     private static final Color COR_DESTAQUE_MONSTRO_RAPIDO = Color.RED;
     private final BotaoTabuleiro[][] botoesTabuleiro = new BotaoTabuleiro[15][15];
@@ -169,13 +169,13 @@ public class Tabuleiro extends JFrame {
         }
         if (brisa(novoX, novoY))
             JOptionPane.showMessageDialog(this, "Você está sentindo uma brisa, cuidado", "Brisa", JOptionPane.INFORMATION_MESSAGE);
+        
         if(brilhoOuro(novoX, novoY))
             JOptionPane.showMessageDialog(this, "Você está sentindo um brilho radiante", "Brisa", JOptionPane.INFORMATION_MESSAGE);
-//        if(atirarFlecha(0))
-//            JOptionPane.showMessageDialog(null, "Você está abaixo do monstro!!", "Aviso", JOptionPane.WARNING_MESSAGE);
-        // if(ehWumpus(novoX, novoY))
+        
         if (monstroPerto(novoX, novoY))
            JOptionPane.showMessageDialog(this, "Você está sentindo um fedor, cuidado", "Fedor", JOptionPane.INFORMATION_MESSAGE);
+        
         if (jogadorPoco(novoX, novoY)) {
             JOptionPane.showMessageDialog(null, "Você caiu em um poço, fim de jogo!", "Game Over", JOptionPane.WARNING_MESSAGE);
             player.setVida(0);
@@ -193,10 +193,10 @@ public class Tabuleiro extends JFrame {
                 coletaItem();
                 atualizaCampoItens();
                 if(!monstroLentoFlecha) {
-                    // moverMonstroLento();
+                    moverMonstroLento();
                 }
                 if(!monstroRapidoFlecha)
-                    //moverMonstroRapido();
+                    moverMonstroRapido();
                if (monstroPerto(novoX, novoY))
                     JOptionPane.showMessageDialog(this, "Você está sentindo um fedor, cuidado", "Fedor", JOptionPane.INFORMATION_MESSAGE);
                 atualizaCampoVida();
@@ -242,45 +242,6 @@ public class Tabuleiro extends JFrame {
         atualizaCampoItens();
     }
 
-//    private void usarLanterna() {
-//    String[] direcoes = {"Cima", "Baixo", "Esquerda", "Direita"};
-//    String direcaoEscolhida = (String) JOptionPane.showInputDialog(null, "Escolha a direção para usar a lanterna:", "Lanterna", JOptionPane.QUESTION_MESSAGE, null, direcoes, direcoes[0]);
-//
-//        if (direcaoEscolhida != null) {
-//            // Passa a direção para a classe Jogador
-//            //bateriaLanterna--; // Reduz a bateria da lanterna na classe Tabuleiro
-//            iluminarCasas(direcaoEscolhida); // Ilumina as casas no Tabuleiro
-//            JOptionPane.showMessageDialog(null, "A lanterna revelou as casas na direção " + direcaoEscolhida + ".", "Lanterna", JOptionPane.INFORMATION_MESSAGE);
-//        }
-//    }
-//
-//    private void iluminarCasas(String direcao){
-//        int x = player.getPosX();
-//        int y = player.getPosY();
-//
-//        switch (direcao) {
-//            case "Cima":
-//                for (int i = y; i < 15; i++) {
-//                    botoesTabuleiro[x][i].
-//                }
-//                break;
-//            case "Baixo":
-//                for (int i = y; i >= 0; i--) {
-//                    botoesTabuleiro[x][i].revelarCasa();
-//                }
-//                break;
-//            case "Esquerda":
-//                for (int i = x; i >= 0; i--) {
-//                    botoesTabuleiro[i][y].revelarCasa();
-//                }
-//                break;
-//            case "Direita":
-//                for (int i = x; i < 15; i++) {
-//                    botoesTabuleiro[i][y].revelarCasa();
-//                }
-//                break;
-//        }
-//    }   
 
     private void atualizaPosicaoJogador(int xNovo, int yNovo) {
         System.out.println("Movendo jogador para (" + xNovo + ", " + yNovo + ")");
