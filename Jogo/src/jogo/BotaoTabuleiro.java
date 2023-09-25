@@ -128,11 +128,12 @@ public class BotaoTabuleiro extends JButton {
             } else {
                 this.setBackground(Color.WHITE);
             }
-
-            switch (item){
-                case MADEIRA -> this.setBackground(COR_DESTAQUE_MADEIRA);
-                case OURO -> this.setBackground(COR_DESTAQUE_OURO);
-                case POCO -> this.setBackground(COR_DESTAQUE_POCO);
+            if(!this.escondido) {
+                switch (item) {
+                    case MADEIRA -> this.setBackground(COR_DESTAQUE_MADEIRA);
+                    case OURO -> this.setBackground(COR_DESTAQUE_OURO);
+                    case POCO -> this.setBackground(COR_DESTAQUE_POCO);
+                }
             }
 
             this.personagem = null;
