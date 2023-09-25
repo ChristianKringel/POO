@@ -152,26 +152,22 @@ public class Tabuleiro extends JFrame {
 
 
     private void novaJogada(int novoX, int novoY) {
+        checaVida();
         System.out.println("--- Inicio da Jogada " + this.nJogadas + " ---");
         System.out.println("Vida: " + player.getVida());
         System.out.println("Jogador: (" + player.getPosX() + ", " + player.getPosY() + ")");
         System.out.println("Monstro Rápido: (" + monstroRapido.getPosX() + ", " + monstroRapido.getPosY() + ")");
         System.out.println("Monstro Lento: (" + monstroLento.getPosX() + ", " + monstroLento.getPosY() + ")");
-
-        if (player.getVida() <= 0) {
-            JOptionPane.showMessageDialog(this, "Você Morreu! ", "Derrota", JOptionPane.INFORMATION_MESSAGE);
-            int escolha = JOptionPane.showOptionDialog(this, "Deseja recomeçar uma nova partida? ", "Escolha", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Recomeçar", "Sair"}, "Recomeçar");
-            if (escolha == JOptionPane.YES_OPTION) {
-                recomecarJogo();
-            } else {
-                System.exit(0);
-            }
+        if(!posicaoValida(novoX, novoY)){
+            System.out.println("Posicao invalida");
+            JOptionPane.showMessageDialog(this, "Esse movimento não é válido", "Posição inválida", JOptionPane.ERROR_MESSAGE);
         }
+
         if (brisa(novoX, novoY))
             JOptionPane.showMessageDialog(this, "Você está sentindo uma brisa, cuidado", "Brisa", JOptionPane.INFORMATION_MESSAGE);
         
         if(brilhoOuro(novoX, novoY))
-            JOptionPane.showMessageDialog(this, "Você está sentindo um brilho radiante", "Brisa", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você está sentindo um brilho radiante", "Brilho", JOptionPane.INFORMATION_MESSAGE);
         
         if (monstroPerto(novoX, novoY))
            JOptionPane.showMessageDialog(this, "Você está sentindo um fedor, cuidado", "Fedor", JOptionPane.INFORMATION_MESSAGE);
@@ -180,12 +176,7 @@ public class Tabuleiro extends JFrame {
             JOptionPane.showMessageDialog(null, "Você caiu em um poço, fim de jogo!", "Game Over", JOptionPane.WARNING_MESSAGE);
             player.setVida(0);
             atualizaCampoVida();
-            int escolha = JOptionPane.showOptionDialog(this, "Deseja recomeçar uma nova partida? ", "Escolha", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Recomeçar", "Sair"}, "Recomeçar");
-            if (escolha == JOptionPane.YES_OPTION) {
-                recomecarJogo();
-            } else {
-                System.exit(0);
-            }
+            checaVida();
         }
         if (posicaoValida(novoX, novoY)) {
             atualizaPosicaoJogador(novoX, novoY);
@@ -194,11 +185,16 @@ public class Tabuleiro extends JFrame {
                 atualizaCampoItens();
                 if(!monstroLentoFlecha) {
                     moverMonstroLento();
+                    checaVida();
                 }
-                if(!monstroRapidoFlecha)
+                if(!monstroRapidoFlecha){
                     moverMonstroRapido();
-               if (monstroPerto(novoX, novoY))
+                    checaVida();
+                }
+               if (monstroPerto(novoX, novoY)){
                     JOptionPane.showMessageDialog(this, "Você está sentindo um fedor, cuidado", "Fedor", JOptionPane.INFORMATION_MESSAGE);
+                   checaVida();
+               }
                 atualizaCampoVida();
                 if (player.getQuantidadeOuro() > 0 && player.getPosX() == 0 && player.getPosY() == 0) {
                     JOptionPane.showMessageDialog(this, "Parabéns! Você ganhou o jogo.", "Vitória", JOptionPane.INFORMATION_MESSAGE);
@@ -212,8 +208,6 @@ public class Tabuleiro extends JFrame {
             } else {
                 System.out.println("Jogador sem vida!");
             }
-        } else {
-            System.out.println("Posicao invalida");
         }
         System.out.println("--- Fim da Jogada " + this.nJogadas + " ---");
         nJogadas++;
@@ -241,6 +235,17 @@ public class Tabuleiro extends JFrame {
         player.descartarItem();
         atualizaCampoItens();
     }
+    private void checaVida(){
+        if (player.getVida() <= 0) {
+            JOptionPane.showMessageDialog(this, "Você Morreu! ", "Derrota", JOptionPane.INFORMATION_MESSAGE);
+            int escolha = JOptionPane.showOptionDialog(this, "Deseja recomeçar uma nova partida? ", "Escolha", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Recomeçar", "Sair"}, "Recomeçar");
+            if (escolha == JOptionPane.YES_OPTION) {
+                recomecarJogo();
+            } else {
+                System.exit(0);
+            }
+        }
+    }
 
 
     private void atualizaPosicaoJogador(int xNovo, int yNovo) {
@@ -253,6 +258,7 @@ public class Tabuleiro extends JFrame {
                     System.out.println("Montro lento encontrou o jogador. Fim da partida!");
                     player.setVida(0);
                     atualizaCampoVida();
+                    checaVida();
                     return;
                 } else  if (p.getClass().getSimpleName().equals(MonstroRapido.class.getSimpleName()) && !monstroRapidoFlecha){
                     System.out.println("Montro rapido encontrou o jogador. Atualizando vida");
@@ -261,6 +267,7 @@ public class Tabuleiro extends JFrame {
                     atualizaCampoVida();
                     if (player.getVida() == 0) {
                         System.out.println("Fim da partida!");
+                        checaVida();
                         return;
                     }
                 }
@@ -414,7 +421,7 @@ public class Tabuleiro extends JFrame {
         return (x <= 14 && x >= 0 && y <= 14 && y >= 0) && botoesTabuleiro[x][y].retornarItem() != TipoDeItem.POCO;
     }
 
-    public void criaPocos() {
+    private void criaPocos() {
         Random random = new Random();
         int i = 0;
         int min = 0;
@@ -433,7 +440,7 @@ public class Tabuleiro extends JFrame {
     }
 
 
-    public void criaMadeira() {
+    private void criaMadeira() {
         Random random = new Random();
         int i = 0;
         int min = 0;
@@ -452,7 +459,7 @@ public class Tabuleiro extends JFrame {
         }
     }
 
-    public void criaOuro() {
+    private void criaOuro() {
         Random random = new Random();
         int i = 0;
         int min = 0;
@@ -537,7 +544,7 @@ public class Tabuleiro extends JFrame {
             if (player.getQuantidadeMadeira() == 0)
                 return true;
             else {
-                JOptionPane.showMessageDialog(null, "Você caiu em um poço mas tinha madeira (-1 madeira no inventario)", "Game Over", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Você caiu em um poço mas tinha madeira (-1 madeira no inventario)", "Ufaa", JOptionPane.WARNING_MESSAGE);
                 destino.removerItem();
                 player.setQuantidadeMadeira(player.getQuantidadeMadeira() - 1);
                 return false;
@@ -663,7 +670,7 @@ public class Tabuleiro extends JFrame {
         return -1;
     }
 
-    public void atirarFlecha(int valor) {
+    private void atirarFlecha(int valor) {
         if (valor == 0) {
             if (monstroLentoPerto(player.getPosX(), player.getPosY()) == 0) {
                 monstroLentoFlecha = true;
@@ -737,7 +744,7 @@ public class Tabuleiro extends JFrame {
     }
 
 // JOptionPane.showMessageDialog(null, "Você está abaixo do monstro!!", "Aviso", JOptionPane.WARNING_MESSAGE);
-    public void flechaDirecao() {
+private void flechaDirecao() {
         if(player.getQuantidadeFlecha() < 1)
             JOptionPane.showMessageDialog(null, "Você não possui flechas!!", "Aviso", JOptionPane.WARNING_MESSAGE);
         else if(player.getQuantidadeArco() < 1)
@@ -765,14 +772,14 @@ public class Tabuleiro extends JFrame {
         }
         atualizaCampoItens();
     }
-    public void usarLanterna(){
+    private void usarLanterna(){
         if(player.getBateriaLanterna() < 1 || player.getQuantidadeLanterna() == 0) {
             JOptionPane.showMessageDialog(null, "Você não possui mais lanterna!!", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
         else {
             String[] opcoesDirecao = {"Cima", "Baixo", "Direita", "Esquerda"};
             String direcaoSelecionada = (String) JOptionPane.showInputDialog(null, "Escolha uma direcao para acender a lanterna:",
-                    "Descartar Item", JOptionPane.QUESTION_MESSAGE, null, opcoesDirecao, opcoesDirecao[0]);
+                    "Usar lanterna", JOptionPane.QUESTION_MESSAGE, null, opcoesDirecao, opcoesDirecao[0]);
             if (direcaoSelecionada != null) {
                 switch (direcaoSelecionada) {
                     case "Cima":
@@ -793,7 +800,7 @@ public class Tabuleiro extends JFrame {
         atualizaCampoItens();
     }
 
-    public void direcaoLanterna(int valor){
+    private void direcaoLanterna(int valor){
         if(valor == 0) {
             for (int i = player.getPosY(); i < 15; i++) {
                 BotaoTabuleiro destino = botoesTabuleiro[player.getPosX()][i];
